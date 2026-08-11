@@ -32,7 +32,7 @@
 
         <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
-                <div class="inner">
+                <div class="inner"> 
                     <h3 id="stat-tugas">100<sup style="font-size: 20px">%</sup></h3>
                     <p>Pembagian Fitur</p>
                 </div>
