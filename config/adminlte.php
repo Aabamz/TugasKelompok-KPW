@@ -349,6 +349,11 @@ return [
             'url'  => 'calendar',
             'icon' => 'fas fa-fw fa-calendar-alt',
         ],
+        [
+            'text' => 'Pricing',
+            'url'  => 'pricing',
+            'icon' => 'fas fa-fw fa-tags',
+        ],
     ],
     
     /*
