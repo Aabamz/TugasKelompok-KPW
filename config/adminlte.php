@@ -298,14 +298,6 @@ return [
     |
     */
 
-   'menu' => [
-        // Search & Fullscreen di Topbar
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
     'menu' => [
         // Topbar / Navbar Atas
         [
@@ -313,48 +305,18 @@ return [
             'topnav_right' => true,
         ],
 
-        // Sidebar Menu
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'Cari...',
         // Menu Utama
         ['header' => 'MAIN MENU'],
         [
             'text' => 'Dashboard',
-            'url'  => 'dashboard', // Dibuat oleh Zabran / Siva
+            'url'  => 'dashboard', // Dibuat oleh Zabran 
             'icon' => 'fas fa-fw fa-tachometer-alt',
         ],
 
         // Pengaturan Akun
         ['header' => 'AKUN SAYA'],
         [
-            'text' => 'Dashboard',
-            'url'  => 'dashboard',
-            'icon' => 'fas fa-fw fa-tachometer-alt',
-        ],
 
-        ['header' => 'PENGATURAN AKUN'],
-        [
-            'text' => 'Profil Saya',
-            'url'  => 'profile', // Ini nyambung ke fitur profil kamu!
-            'icon' => 'fas fa-fw fa-user',
-        ],
-
-        ['header' => 'LABEL'],
-        [
-            'text'       => 'Penting',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'Peringatan',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'Informasi',
-            'icon_color' => 'cyan',
-            'url'        => '#',
             'text' => 'Profil Saya',
             'url'  => 'profile', // Dibuat oleh Aira
             'icon' => 'fas fa-fw fa-user',
