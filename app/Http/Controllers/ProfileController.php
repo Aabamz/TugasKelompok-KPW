@@ -12,6 +12,12 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        // Redirect jika belum login
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
         return view('profile', compact('user'));
     }
 
@@ -19,6 +25,11 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
+
+        // Cek apakah sesi login aktif
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
         $request->validate([
             'name'   => 'required|string|max:255',
