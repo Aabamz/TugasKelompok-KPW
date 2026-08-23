@@ -298,6 +298,7 @@ return [
     |
     */
 
+<<<<<<< HEAD
    'menu' => [
         // Search & Fullscreen di Topbar
         [
@@ -306,16 +307,34 @@ return [
             'topnav_right' => true,
         ],
         [
+=======
+    'menu' => [
+        // Topbar / Navbar Atas
+        [
+>>>>>>> origin/fitur-sidebar
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
+<<<<<<< HEAD
         // Sidebar Menu
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Cari...',
-        ],
+=======
+        // Menu Utama
+        ['header' => 'MAIN MENU'],
         [
+            'text' => 'Dashboard',
+            'url'  => 'dashboard', // Dibuat oleh Zabran / Siva
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+>>>>>>> origin/fitur-sidebar
+        ],
+
+        // Pengaturan Akun
+        ['header' => 'AKUN SAYA'],
+        [
+<<<<<<< HEAD
             'text' => 'Dashboard',
             'url'  => 'dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
@@ -343,9 +362,27 @@ return [
             'text'       => 'Informasi',
             'icon_color' => 'cyan',
             'url'        => '#',
+=======
+            'text' => 'Profil Saya',
+            'url'  => 'profile', // Dibuat oleh Aira
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
+        // Autentikasi (Akan disembunyikan jika sudah sistem login/register penuh)
+        ['header' => 'AUTENTIKASI'],
+        [
+            'text' => 'Login',
+            'url'  => 'login', // Dibuat oleh Evan
+            'icon' => 'fas fa-fw fa-sign-in-alt',
+        ],
+        [
+            'text' => 'Register',
+            'url'  => 'register', // Dibuat oleh Della
+            'icon' => 'fas fa-fw fa-user-plus',
+>>>>>>> origin/fitur-sidebar
         ],
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Menu Filters
