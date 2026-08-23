@@ -334,6 +334,11 @@ return [
             'url'  => 'register', // Dibuat oleh Della
             'icon' => 'fas fa-fw fa-user-plus',
         ],
+        [
+    'text' => 'Settings',
+    'url'  => 'settings',
+    'icon' => 'fas fa-fw fa-cog',
+],
     ],
     
     /*
