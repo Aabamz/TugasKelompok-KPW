@@ -15,7 +15,7 @@
                 <div class="mb-3">
                     @if(Auth::user()?->avatar)
                         <img class="profile-user-img img-fluid img-circle" 
-                             src="{{ asset('storage/' . Auth::user()->avatar) }}" 
+                             src="{{ Storage::url(Auth::user()->avatar) }}" 
                              alt="Foto Profil" style="width: 120px; height: 120px; object-fit: cover;">
                     @else
                         <img class="profile-user-img img-fluid img-circle" 
