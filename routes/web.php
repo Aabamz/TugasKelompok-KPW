@@ -36,3 +36,8 @@ use App\Http\Controllers\InvoiceController;
 Route::middleware('auth')->group(function () {
     Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
 });
+use App\Http\Controllers\CalendarController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+});

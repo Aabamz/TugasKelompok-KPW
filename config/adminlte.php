@@ -344,6 +344,11 @@ return [
             'url'  => 'invoice',
             'icon' => 'fas fa-fw fa-file-invoice-dollar',
         ],
+        [
+            'text' => 'Calendar',
+            'url'  => 'calendar',
+            'icon' => 'fas fa-fw fa-calendar-alt',
+        ],
     ],
     
     /*
