@@ -13,7 +13,7 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile text-center">
                 <div class="mb-3">
-                    @if(Auth::user()->avatar)
+                    @if(Auth::user()?->avatar)
                         <img class="profile-user-img img-fluid img-circle" 
                              src="{{ asset('storage/' . Auth::user()->avatar) }}" 
                              alt="Foto Profil" style="width: 120px; height: 120px; object-fit: cover;">
@@ -24,15 +24,15 @@
                     @endif
                 </div>
 
-                <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
-                <p class="text-muted text-center">{{ Auth::user()->email }}</p>
+                <h3 class="profile-username text-center">{{ Auth::user()?->name ?? 'Tamu' }}</h3>
+                <p class="text-muted text-center">{{ Auth::user()?->email ?? '-' }}</p>
 
                 <ul class="list-group list-group-unbordered mb-3 text-left">
                     <li class="list-group-item">
-                        <b>No. HP</b> <a class="float-right">{{ Auth::user()->phone ?? '-' }}</a>
+                        <b>No. HP</b> <a class="float-right">{{ Auth::user()?->phone ?? '-' }}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Bio</b> <p class="text-muted mt-1 mb-0">{{ Auth::user()->bio ?? 'Belum ada bio.' }}</p>
+                        <b>Bio</b> <p class="text-muted mt-1 mb-0">{{ Auth::user()?->bio ?? 'Belum ada bio.' }}</p>
                     </li>
                 </ul>
             </div>
@@ -62,7 +62,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-sm-3 col-form-label">Nama Lengkap</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', Auth::user()?->name) }}" required>
                             @error('name') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="form-group row">
                         <label for="email" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', Auth::user()?->email) }}" required>
                             @error('email') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                     <div class="form-group row">
                         <label for="phone" class="col-sm-3 col-form-label">No. Handphone</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', Auth::user()->phone) }}" placeholder="08123456789">
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', Auth::user()?->phone) }}" placeholder="08123456789">
                             @error('phone') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     <div class="form-group row">
                         <label for="bio" class="col-sm-3 col-form-label">Bio Singkat</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3" placeholder="Ceritakan sedikit tentang dirimu...">{{ old('bio', Auth::user()->bio) }}</textarea>
+                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3" placeholder="Ceritakan sedikit tentang dirimu...">{{ old('bio', Auth::user()?->bio) }}</textarea>
                             @error('bio') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                     </div>
