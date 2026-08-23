@@ -335,10 +335,15 @@ return [
             'icon' => 'fas fa-fw fa-user-plus',
         ],
         [
-    'text' => 'Settings',
-    'url'  => 'settings',
-    'icon' => 'fas fa-fw fa-cog',
-],
+            'text' => 'Settings',
+            'url'  => 'settings',
+            'icon' => 'fas fa-fw fa-cog',
+        ],
+        [
+            'text' => 'Invoice',
+            'url'  => 'invoice',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar',
+        ],
     ],
     
     /*

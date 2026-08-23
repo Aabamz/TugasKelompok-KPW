@@ -25,3 +25,8 @@ Route::put('/profile', [ProfileController::class, 'update'])->name('profile.upda
 Route::get('/', function () {
     return view('welcome');
 });
+use App\Http\Controllers\InvoiceController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+});
