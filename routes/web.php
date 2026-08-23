@@ -25,3 +25,9 @@ Route::put('/profile', [ProfileController::class, 'update'])->name('profile.upda
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Http\Controllers\RegisterController;
+
+// Route Fitur Register
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);

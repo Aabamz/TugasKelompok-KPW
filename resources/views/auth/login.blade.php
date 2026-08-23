@@ -52,3 +52,10 @@
         </div>
     </form>
 @stop
+
+@section('auth_footer')
+    <p class="mb-0 text-center">
+        Belum punya akun?
+        <a href="{{ route('register') }}" class="text-center">Daftar sekarang</a>
+    </p>
+@stop
