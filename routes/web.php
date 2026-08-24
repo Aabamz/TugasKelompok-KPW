@@ -3,37 +3,58 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Admin\GenreController;
+use App\Http\Controllers\Admin\CastController;
+use App\Http\Controllers\Admin\PeranController;
+use App\Http\Controllers\Admin\FilmController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\User\KatalogController;
+use App\Http\Controllers\User\ProfileController as UserProfileController;
+use App\Http\Controllers\User\KritikController;
 
-// Public Routes
+// 1. Guest Routes (Tanpa Auth)
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Authenticated Routes
+// 2. Authenticated Routes (Bisa Diakses Admin & User Biasa)
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard / Katalog Film
+    Route::get('/dashboard', [KatalogController::class, 'index'])->name('dashboard');
+    Route::get('/film/{id}', [KatalogController::class, 'show'])->name('film.detail');
+    Route::post('/film/{id}/kritik', [KritikController::class, 'store'])->name('kritik.store');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Profile User
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 
+    // Menu Opsional
     Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.index');
-
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.update-password');
     Route::delete('/settings/account', [SettingsController::class, 'destroyAccount'])->name('settings.destroy-account');
+});
+
+// 3. Admin Routes (Khusus Role Admin)
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('genre', GenreController::class);
+    Route::resource('cast', CastController::class);
+    Route::resource('peran', PeranController::class);
+    Route::resource('film', FilmController::class);
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
 });
