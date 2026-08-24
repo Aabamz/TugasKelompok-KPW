@@ -33,6 +33,6 @@ class RegisterController extends Controller
         // Otomatis login setelah berhasil mendaftar
         Auth::login($user);
 
-        return redirect()->route('profile.index')->with('success', 'Akun berhasil dibuat! Selamat datang.');
+        return redirect()->route('dashboard')->with('success', 'Akun berhasil dibuat! Selamat datang.');
     }
 }

@@ -1,0 +1,25 @@
+@extends('adminlte::page')
+
+@section('title', 'Tambah Genre')
+
+@section('content_header')
+    <h1>Tambah Genre</h1>
+@stop
+
+@section('content')
+<div class="card card-primary">
+    <form action="{{ route('genre.store') }}" method="POST">
+        @csrf
+        <div class="card-body">
+            <div class="form-group">
+                <label for="nama">Nama Genre</label>
+                <input type="text" name="nama" class="form-control" id="nama" placeholder="Masukkan nama genre" required>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{{ route('genre.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+    </form>
+</div>
+@stop

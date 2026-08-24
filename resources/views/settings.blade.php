@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- Konten Kanan (Tab Content) -->
+    <!-- Konten Kanan (Tab Content) --> <!-- Konten Kanan (Tab Content) -->
     <div class="col-md-9">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
