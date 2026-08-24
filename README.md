@@ -64,4 +64,16 @@ Evan Septia Ramadan (9)
 Fauzia Yuan Della (11) 
 Siva Mustika (31)
 Zabran Farzana Azaria (35)
+
+LIST PEKERJAAN
+Zabran : git checkout -b fitur-dashboard
+
+Evan (Login): git checkout -b fitur-login
+
+Della (Register): git checkout -b fitur-register
+
+siva (Dashboard): git checkout -b fitur-sidebar
+
+Aira (Profile): git checkout -b fitur-profile
+
 >>>>>>> 453efac63619f37c1d4e16d4f35ca574b47a73ec
