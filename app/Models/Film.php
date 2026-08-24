@@ -16,6 +16,16 @@ class Film extends Model
         'genre_id',
     ];
 
+    public function peran()
+    {
+        return $this->hasMany(Peran::class);
+    }
+
+    public function kritik()
+    {
+        return $this->hasMany(Kritik::class);
+    }
+
     public function genre()
     {
         return $this->belongsTo(Genre::class);

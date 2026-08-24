@@ -10,26 +10,27 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('film', function (Blueprint $table) {
-        $table->id();
-        $table->string('judul', 45);
-        $table->text('ringkasan');
-        $table->integer('tahun');
-        $table->string('poster', 45);
+    {
+        Schema::create('film', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul', 45);
+            $table->text('ringkasan');
+            $table->integer('tahun');
+            $table->string('poster', 45);
 
-        $table->foreignId('genre_id')
-              ->constrained('genre')
-              ->cascadeOnDelete();
+            $table->foreignId('genre_id')
+                  ->constrained('genre')
+                  ->cascadeOnDelete();
 
-        $table->timestamps();
-    });
-}
+            $table->timestamps();
+        });
+    }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('films');
+        Schema::dropIfExists('film');
     }
 };
