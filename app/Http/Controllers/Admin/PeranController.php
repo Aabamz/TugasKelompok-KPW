@@ -31,7 +31,11 @@ class PeranController extends Controller
             'nama'    => 'required|max:45',
         ]);
         Peran::create($request->all());
+<<<<<<< HEAD
         return redirect()->route('admin.peran.index')->with('success', 'Peran berhasil ditambahkan');
+=======
+        return redirect()->route('peran.index')->with('success', 'Peran berhasil ditambahkan');
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function edit(Peran $peran)
@@ -49,12 +53,20 @@ class PeranController extends Controller
             'nama'    => 'required|max:45',
         ]);
         $peran->update($request->all());
+<<<<<<< HEAD
         return redirect()->route('admin.peran.index')->with('success', 'Peran berhasil diupdate');
+=======
+        return redirect()->route('peran.index')->with('success', 'Peran berhasil diupdate');
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function destroy(Peran $peran)
     {
         $peran->delete();
+<<<<<<< HEAD
         return redirect()->route('admin.peran.index')->with('success', 'Peran berhasil dihapus');
+=======
+        return redirect()->route('peran.index')->with('success', 'Peran berhasil dihapus');
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 }

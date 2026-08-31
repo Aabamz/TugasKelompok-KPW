@@ -23,7 +23,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
+<<<<<<< HEAD
             return redirect()->intended('/dashboard'); // Otomatis masuk ke katalog film
+=======
+            return redirect()->intended('/profile'); // Otomatis masuk ke halaman profil
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         }
 
         return back()->withErrors([

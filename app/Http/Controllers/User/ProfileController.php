@@ -4,12 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
+<<<<<<< HEAD
 use App\Models\User;
+=======
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+<<<<<<< HEAD
     // Halaman "kartu profil" baca-saja milik sendiri
     public function show()
     {
@@ -31,6 +35,12 @@ class ProfileController extends Controller
     {
         $user = Auth::user()->load('profile');
         return view('user.profile.edit', compact('user'));
+=======
+    public function show()
+    {
+        $user = Auth::user()->load('profile');
+        return view('user.profile.show', compact('user'));
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function update(Request $request)

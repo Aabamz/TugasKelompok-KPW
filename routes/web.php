@@ -15,7 +15,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\KritikController;
+<<<<<<< HEAD
 use App\Http\Controllers\User\FollowController;
+=======
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 
 // 1. Guest Routes (Tanpa Auth)
 Route::get('/', function () {
@@ -40,10 +43,14 @@ Route::middleware('auth')->group(function () {
 
     // Profile User
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+<<<<<<< HEAD
     Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/{user}', [UserProfileController::class, 'view'])->name('profile.view');
     Route::post('/profile/{user}/follow', [FollowController::class, 'toggle'])->name('profile.follow');
+=======
+    Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 
     // Menu Opsional
     Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
@@ -56,10 +63,18 @@ Route::middleware('auth')->group(function () {
 
 // 3. Admin Routes (Khusus Role Admin)
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+<<<<<<< HEAD
     Route::resource('genre', GenreController::class)->except('show');
     Route::resource('cast', CastController::class)->except('show');
     Route::resource('peran', PeranController::class)->except('show');
     Route::resource('film', FilmController::class)->except('show');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+=======
+    Route::resource('genre', GenreController::class);
+    Route::resource('cast', CastController::class);
+    Route::resource('peran', PeranController::class);
+    Route::resource('film', FilmController::class);
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 });

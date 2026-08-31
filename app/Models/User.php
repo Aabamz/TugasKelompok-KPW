@@ -31,6 +31,7 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+<<<<<<< HEAD
 
     // User-user yang di-follow oleh dia
     public function following()
@@ -48,4 +49,6 @@ class User extends Authenticatable
     {
         return $this->following()->where('following_id', $user->id)->exists();
     }
+=======
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 }

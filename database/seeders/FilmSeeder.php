@@ -5,13 +5,17 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Genre;
 use App\Models\Film;
+<<<<<<< HEAD
 use App\Models\Cast;
 use App\Models\Peran;
+=======
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 
 class FilmSeeder extends Seeder
 {
     public function run()
     {
+<<<<<<< HEAD
         // 1. Buat Beberapa Data Genre
         $action = Genre::firstOrCreate(['nama' => 'Action']);
         $scifi  = Genre::firstOrCreate(['nama' => 'Sci-Fi']);
@@ -70,3 +74,20 @@ class FilmSeeder extends Seeder
         Peran::firstOrCreate(['film_id' => $interstellar->id, 'cast_id' => $matthew->id], ['nama' => 'Joseph Cooper']);
     }
 }
+=======
+        // 1. Buat Data Genre Terlebih Dahulu
+        $genre = Genre::firstOrCreate([
+            'nama' => 'Action'
+        ]);
+
+        // 2. Buat Data Film Menggunakan ID Genre yang Baru Dibuat
+        Film::create([
+            'judul' => 'Inception',
+            'ringkasan' => 'Seorang pencuri yang mencuri rahasia perusahaan melalui penggunaan teknologi berbagi mimpi.',
+            'tahun' => 2010,
+            'poster' => 'posters/sample.jpg',
+            'genre_id' => $genre->id
+        ]);
+    }
+}
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9

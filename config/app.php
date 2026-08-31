@@ -15,9 +15,12 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+<<<<<<< HEAD
     // Kode rahasia agar bisa daftar sebagai admin lewat halaman register publik
     'admin_registration_code' => env('ADMIN_REGISTRATION_CODE', 'RAHASIA-ADMIN-123'),
 
+=======
+>>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     /*
     |--------------------------------------------------------------------------
     | Application Environment
