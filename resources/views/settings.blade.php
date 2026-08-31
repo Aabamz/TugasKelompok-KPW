@@ -56,11 +56,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted">Kelola profil pengguna dan informasi akun Anda.</p>
-<<<<<<< HEAD
                         <a href="{{ route('profile.show') }}" class="btn btn-primary">
-=======
-                        <a href="{{ route('profile.index') }}" class="btn btn-primary">
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
                             <i class="fas fa-user-edit mr-1"></i> Buka Edit Profil
                         </a>
                     </div>

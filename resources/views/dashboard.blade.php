@@ -27,7 +27,6 @@
                         <span class="badge badge-info">{{ $film->genre->nama ?? 'Umum' }}</span>
                         <small class="text-muted"><i class="fas fa-calendar"></i> {{ $film->tahun }}</small>
                     </div>
-<<<<<<< HEAD
                     <div class="mb-2">
                         @if($film->kritik_count > 0)
                             <span class="text-warning">
@@ -38,8 +37,6 @@
                             <small class="text-muted"><i class="far fa-star"></i> Belum ada rating</small>
                         @endif
                     </div>
-=======
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
                     <h5 class="card-title font-weight-bold text-truncate">{{ $film->judul }}</h5>
                     <p class="card-text text-muted small flex-grow-1" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                         {{ $film->ringkasan }}

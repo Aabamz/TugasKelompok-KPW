@@ -27,11 +27,7 @@ class CastController extends Controller
             'bio'  => 'required',
         ]);
         Cast::create($request->all());
-<<<<<<< HEAD
         return redirect()->route('admin.cast.index')->with('success', 'Cast berhasil ditambahkan');
-=======
-        return redirect()->route('cast.index')->with('success', 'Cast berhasil ditambahkan');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function edit(Cast $cast)
@@ -47,20 +43,12 @@ class CastController extends Controller
             'bio'  => 'required',
         ]);
         $cast->update($request->all());
-<<<<<<< HEAD
         return redirect()->route('admin.cast.index')->with('success', 'Cast berhasil diupdate');
-=======
-        return redirect()->route('cast.index')->with('success', 'Cast berhasil diupdate');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function destroy(Cast $cast)
     {
         $cast->delete();
-<<<<<<< HEAD
         return redirect()->route('admin.cast.index')->with('success', 'Cast berhasil dihapus');
-=======
-        return redirect()->route('cast.index')->with('success', 'Cast berhasil dihapus');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 }

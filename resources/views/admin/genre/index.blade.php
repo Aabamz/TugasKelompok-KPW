@@ -9,11 +9,7 @@
 @section('content')
 <div class="card card-dark">
     <div class="card-header">
-<<<<<<< HEAD
         <a href="{{ route('admin.genre.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Genre</a>
-=======
-        <a href="{{ route('genre.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Genre</a>
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     </div>
     <div class="card-body p-0">
         <table class="table table-striped table-dark">
@@ -30,13 +26,8 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $genre->nama }}</td>
                         <td class="text-center">
-<<<<<<< HEAD
                             <form action="{{ route('admin.genre.destroy', $genre->id) }}" method="POST">
                                 <a href="{{ route('admin.genre.edit', $genre->id) }}" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a>
-=======
-                            <form action="{{ route('genre.destroy', $genre->id) }}" method="POST">
-                                <a href="{{ route('genre.edit', $genre->id) }}" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a>
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Yakin hapus data?')"><i class="fas fa-trash"></i></button>

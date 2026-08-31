@@ -12,11 +12,7 @@ class FilmController extends Controller
 {
     public function index()
     {
-<<<<<<< HEAD
         $films = Film::with('genre')->withAvg('kritik', 'point')->withCount('kritik')->get();
-=======
-        $films = Film::with('genre')->get();
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         return view('admin.film.index', compact('films'));
     }
 
@@ -47,11 +43,7 @@ class FilmController extends Controller
             'genre_id'  => $request->genre_id,
         ]);
 
-<<<<<<< HEAD
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil ditambahkan');
-=======
-        return redirect()->route('film.index')->with('success', 'Film berhasil ditambahkan');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function edit(Film $film)
@@ -82,11 +74,7 @@ class FilmController extends Controller
 
         $film->update($data);
 
-<<<<<<< HEAD
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil diupdate');
-=======
-        return redirect()->route('film.index')->with('success', 'Film berhasil diupdate');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 
     public function destroy(Film $film)
@@ -96,10 +84,6 @@ class FilmController extends Controller
         }
         $film->delete();
 
-<<<<<<< HEAD
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil dihapus');
-=======
-        return redirect()->route('film.index')->with('success', 'Film berhasil dihapus');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 }

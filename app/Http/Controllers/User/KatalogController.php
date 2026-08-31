@@ -11,11 +11,7 @@ class KatalogController extends Controller
     // Menampilkan seluruh katalog film di Dashboard
     public function index(Request $request)
     {
-<<<<<<< HEAD
         $query = Film::with('genre')->withAvg('kritik', 'point')->withCount('kritik');
-=======
-        $query = Film::with('genre');
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
 
         // Fitur Pencarian Film
         if ($request->has('search') && $request->search != '') {
