@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -39,13 +40,26 @@ class ProfileController extends Controller
             'umur'   => 'required|numeric|min:1',
             'bio'    => 'required|string',
             'alamat' => 'required|string',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $userId = Auth::id();
+        $user = Auth::user();
+
+        // Proses upload foto profil (jika user memilih file baru)
+        if ($request->hasFile('avatar')) {
+            // Hapus foto lama supaya tidak menumpuk file di storage
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            $avatarPath   = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $avatarPath;
+            $user->save();
+        }
 
         // Update atau buat profile jika belum ada
         Profile::updateOrCreate(
-            ['user_id' => $userId],
+            ['user_id' => $user->id],
             [
                 'umur'   => $request->umur,
                 'bio'    => $request->bio,

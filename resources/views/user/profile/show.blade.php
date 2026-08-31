@@ -26,7 +26,7 @@
     <div class="col-md-4">
         <div class="card card-primary card-outline bg-dark text-center">
             <div class="card-body box-profile">
-                <img class="profile-user-img img-fluid img-circle mb-3" src="https://i.pravatar.cc/150?u={{ $user->id }}" alt="User profile picture">
+                <img class="profile-user-img img-fluid img-circle mb-3" src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://i.pravatar.cc/150?u=' . $user->id }}" alt="User profile picture">
 
                 <h3 class="profile-username font-weight-bold mb-0">{{ $user->name }}</h3>
                 <p class="text-muted">{{ $user->email }}</p>

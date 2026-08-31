@@ -17,7 +17,7 @@
         <div class="card card-primary card-outline bg-dark">
             <div class="card-body box-profile text-center">
                 <div class="text-center mb-3">
-                    <img class="profile-user-img img-fluid img-circle" src="https://i.pravatar.cc/150?u={{ $user->id }}" alt="User profile picture">
+                    <img id="avatar-preview" class="profile-user-img img-fluid img-circle" src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://i.pravatar.cc/150?u=' . $user->id }}" alt="User profile picture">
                 </div>
                 <h3 class="profile-username text-center font-weight-bold">{{ $user->name }}</h3>
                 <p class="text-muted text-center">{{ $user->email }}</p>
@@ -31,7 +31,7 @@
             <div class="card-header border-bottom border-secondary">
                 <h3 class="card-title font-weight-bold">Edit Detail Profil</h3>
             </div>
-            <form action="{{ route('profile.update') }}" method="POST">
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card-body">
@@ -41,6 +41,14 @@
                         </div>
                     @endif
 
+                    <div class="form-group">
+                        <label>Foto Profil</label>
+                        <input type="file" name="avatar" id="avatar-input" class="form-control-file" accept="image/*" onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
+                        @error('avatar')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                        <small class="form-text text-muted">Format JPG/PNG/GIF, maksimal 2MB.</small>
+                    </div>
                     <div class="form-group">
                         <label>Umur</label>
                         <input type="number" name="umur" class="form-control" value="{{ old('umur', $user->profile->umur ?? '') }}" placeholder="Masukkan umur" required>
