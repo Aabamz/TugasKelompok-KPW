@@ -76,9 +76,18 @@
     <div class="card-header">
         <h3 class="card-title">Tulis Ulasan / Kritik</h3>
     </div>
+    <div class="card-body pb-0">
+        <div class="media align-items-center mb-3">
+            <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://i.pravatar.cc/150?u=' . Auth::user()->id }}" alt="Foto profil" class="img-circle mr-2" style="width:40px;height:40px;object-fit:cover;">
+            <div class="media-body">
+                <strong>{{ Auth::user()->name }}</strong>
+                <div class="text-muted small">Memberi ulasan sebagai akun ini</div>
+            </div>
+        </div>
+    </div>
     <form action="{{ route('kritik.store', $film->id) }}" method="POST">
         @csrf
-        <div class="card-body">
+        <div class="card-body pt-0">
             <div class="form-group">
                 <label for="point">Rating</label>
                 <select name="point" id="point" class="form-control @error('point') is-invalid @enderror" required>
@@ -118,10 +127,11 @@
     <div class="card-body">
         @forelse($film->kritik->sortByDesc('created_at') as $kritik)
             <div class="media mb-3 pb-3 border-bottom">
+                <img src="{{ $kritik->user->avatar ? asset('storage/' . $kritik->user->avatar) : 'https://i.pravatar.cc/150?u=' . ($kritik->user->id ?? 0) }}" alt="Foto profil" class="img-circle mr-3" style="width:40px;height:40px;object-fit:cover;">
                 <div class="media-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="mt-0 mb-1 font-weight-bold">
-                            <a href="{{ route('profile.view', $kritik->user->id ?? 0) }}" class="text-light">
+                            <a href="{{ route('profile.view', $kritik->user->id ?? 0) }}" class="text-dark">
                                 {{ $kritik->user->name ?? 'Pengguna' }}
                             </a>
                         </h6>

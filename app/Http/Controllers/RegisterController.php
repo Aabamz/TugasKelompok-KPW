@@ -19,7 +19,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-<<<<<<< HEAD
             'name'       => 'required|string|max:255',
             'email'      => 'required|string|email|max:255|unique:users',
             'password'   => 'required|string|min:8|confirmed',
@@ -32,21 +31,11 @@ class RegisterController extends Controller
             $role = 'admin';
         }
 
-=======
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-<<<<<<< HEAD
             'role'     => $role,
-=======
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         ]);
 
         // Otomatis login setelah berhasil mendaftar
