@@ -8,11 +8,7 @@
 
 @section('content')
 <div class="card card-primary">
-<<<<<<< HEAD
     <form action="{{ route('admin.film.store') }}" method="POST" enctype="multipart/form-data">
-=======
-    <form action="{{ route('film.store') }}" method="POST" enctype="multipart/form-data">
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         @csrf
         <div class="card-body">
             <div class="form-group">
@@ -43,11 +39,7 @@
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Simpan</button>
-<<<<<<< HEAD
             <a href="{{ route('admin.film.index') }}" class="btn btn-secondary">Batal</a>
-=======
-            <a href="{{ route('film.index') }}" class="btn btn-secondary">Batal</a>
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         </div>
     </form>
 </div>

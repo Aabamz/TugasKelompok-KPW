@@ -65,7 +65,6 @@
             </div>
         </div>
 
-<<<<<<< HEAD
         {{-- Field ini hanya muncul kalau buka /register?akses=khusus, tidak terlihat di form normal --}}
         @if(request('akses') === 'khusus')
         <div class="input-group mb-3">
@@ -84,8 +83,6 @@
         </div>
         @endif
 
-=======
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
         {{-- Tombol Register --}}
         <div class="row mb-3">
             <div class="col-12">
