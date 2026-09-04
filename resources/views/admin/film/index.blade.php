@@ -9,7 +9,11 @@
 @section('content')
 <div class="card card-dark">
     <div class="card-header">
+<<<<<<< HEAD
         <a href="{{ route('admin.film.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Film</a>
+=======
+        <a href="{{ route('film.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Film</a>
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     </div>
     <div class="card-body p-0">
         <table class="table table-striped table-dark align-middle">
@@ -20,7 +24,10 @@
                     <th>Judul</th>
                     <th>Tahun</th>
                     <th>Genre</th>
+<<<<<<< HEAD
                     <th>Rating</th>
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
                     <th style="width: 150px" class="text-center">Aksi</th>
                 </tr>
             </thead>
@@ -34,6 +41,7 @@
                         <td>{{ $film->judul }}</td>
                         <td>{{ $film->tahun }}</td>
                         <td><span class="badge badge-info">{{ $film->genre->nama ?? '-' }}</span></td>
+<<<<<<< HEAD
                         <td>
                             @if($film->kritik_count > 0)
                                 <span class="text-warning"><i class="fas fa-star"></i> {{ number_format($film->kritik_avg_point, 1) }}</span>
@@ -45,6 +53,11 @@
                         <td class="text-center">
                             <form action="{{ route('admin.film.destroy', $film->id) }}" method="POST">
                                 <a href="{{ route('admin.film.edit', $film->id) }}" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a>
+=======
+                        <td class="text-center">
+                            <form action="{{ route('film.destroy', $film->id) }}" method="POST">
+                                <a href="{{ route('film.edit', $film->id) }}" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a>
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Yakin hapus film ini?')"><i class="fas fa-trash"></i></button>
@@ -52,7 +65,11 @@
                         </td>
                     </tr>
                 @empty
+<<<<<<< HEAD
                     <tr><td colspan="7" class="text-center">Belum ada data film.</td></tr>
+=======
+                    <tr><td colspan="6" class="text-center">Belum ada data film.</td></tr>
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
                 @endforelse
             </tbody>
         </table>

@@ -9,19 +9,52 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable
 {
+<<<<<<< HEAD
     use HasFactory, Notifiable, HasPushSubscriptions;
 
+=======
+    use HasFactory, Notifiable;
+
+<<<<<<< HEAD
+    /**
+     * Relasi ke model Profile.
+     */
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function kritik()
+    {
+        return $this->hasMany(Kritik::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+<<<<<<< HEAD
         'avatar',
         'phone',
         'bio',
     ];
 
     public function profile()
+=======
+    ];
+
+    public function profile()
+>>>>>>> 79064e9 (migration-zabran)
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     {
         return $this->hasOne(Profile::class, 'user_id');
     }
@@ -34,6 +67,7 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+<<<<<<< HEAD
     }
 
     // User-user yang di-follow oleh dia
@@ -62,5 +96,7 @@ class User extends Authenticatable
     public function hasWishlisted(Film $film): bool
     {
         return $this->wishlists()->where('film_id', $film->id)->exists();
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 }

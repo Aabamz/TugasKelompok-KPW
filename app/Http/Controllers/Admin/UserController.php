@@ -3,7 +3,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
 
 class UserController extends Controller
 {
@@ -13,6 +16,7 @@ class UserController extends Controller
         $users = User::with('profile')->where('role', 'user')->get();
         return view('admin.user.index', compact('users'));
     }
+<<<<<<< HEAD
 
     public function destroy(Request $request, User $user)
     {
@@ -25,4 +29,6 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
     }
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\KritikController;
+<<<<<<< HEAD
 use App\Http\Controllers\User\FollowController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\PushSubscriptionController;
@@ -25,6 +26,12 @@ Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
         : redirect()->route('login');
+=======
+
+// 1. Guest Routes (Tanpa Auth)
+Route::get('/', function () {
+    return view('welcome');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
 });
 
 Route::middleware('guest')->group(function () {
@@ -44,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/film/{id}/kritik', [KritikController::class, 'store'])->name('kritik.store');
 
     // Profile User
+<<<<<<< HEAD
     Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifikasi/data', [NotificationController::class, 'data'])->name('notifications.data');
     Route::post('/webpush/subscribe', [PushSubscriptionController::class, 'subscribe'])->name('webpush.subscribe');
@@ -61,6 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}/followers', [UserProfileController::class, 'followers'])->name('profile.followers');
     Route::get('/profile/{user}/following', [UserProfileController::class, 'followingList'])->name('profile.following');
     Route::post('/profile/{user}/follow', [FollowController::class, 'toggle'])->name('profile.follow');
+=======
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
 
     // Menu Opsional
     Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
@@ -73,10 +85,18 @@ Route::middleware('auth')->group(function () {
 
 // 3. Admin Routes (Khusus Role Admin)
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+<<<<<<< HEAD
     Route::resource('genre', GenreController::class)->except('show');
     Route::resource('cast', CastController::class)->except('show');
     Route::resource('peran', PeranController::class)->except('show');
     Route::resource('film', FilmController::class)->except('show');
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+=======
+    Route::resource('genre', GenreController::class);
+    Route::resource('cast', CastController::class);
+    Route::resource('peran', PeranController::class);
+    Route::resource('film', FilmController::class);
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
 });

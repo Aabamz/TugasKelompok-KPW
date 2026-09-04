@@ -12,7 +12,11 @@ class FilmController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $films = Film::with('genre')->withAvg('kritik', 'point')->withCount('kritik')->get();
+=======
+        $films = Film::with('genre')->get();
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
         return view('admin.film.index', compact('films'));
     }
 
@@ -29,28 +33,41 @@ class FilmController extends Controller
             'ringkasan' => 'required',
             'tahun'     => 'required|numeric',
             'poster'    => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+<<<<<<< HEAD
             'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
             'genre_id'  => 'required|exists:genre,id',
         ]);
 
         // Upload Gambar Poster
         $posterPath = $request->file('poster')->store('posters', 'public');
 
+<<<<<<< HEAD
         // Upload Video (opsional)
         $videoPath = $request->hasFile('video')
             ? $request->file('video')->store('videos', 'public')
             : null;
 
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
         Film::create([
             'judul'     => $request->judul,
             'ringkasan' => $request->ringkasan,
             'tahun'     => $request->tahun,
             'poster'    => $posterPath,
+<<<<<<< HEAD
             'video'     => $videoPath,
             'genre_id'  => $request->genre_id,
         ]);
 
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil ditambahkan');
+=======
+            'genre_id'  => $request->genre_id,
+        ]);
+
+        return redirect()->route('film.index')->with('success', 'Film berhasil ditambahkan');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 
     public function edit(Film $film)
@@ -66,7 +83,10 @@ class FilmController extends Controller
             'ringkasan' => 'required',
             'tahun'     => 'required|numeric',
             'poster'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+<<<<<<< HEAD
             'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
+=======
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
             'genre_id'  => 'required|exists:genre,id',
         ]);
 
@@ -80,6 +100,7 @@ class FilmController extends Controller
             $data['poster'] = $request->file('poster')->store('posters', 'public');
         }
 
+<<<<<<< HEAD
         if ($request->hasFile('video')) {
             // Hapus video lama
             if ($film->video && Storage::disk('public')->exists($film->video)) {
@@ -91,6 +112,11 @@ class FilmController extends Controller
         $film->update($data);
 
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil diupdate');
+=======
+        $film->update($data);
+
+        return redirect()->route('film.index')->with('success', 'Film berhasil diupdate');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 
     public function destroy(Film $film)
@@ -98,11 +124,17 @@ class FilmController extends Controller
         if ($film->poster && Storage::disk('public')->exists($film->poster)) {
             Storage::disk('public')->delete($film->poster);
         }
+<<<<<<< HEAD
         if ($film->video && Storage::disk('public')->exists($film->video)) {
             Storage::disk('public')->delete($film->video);
         }
         $film->delete();
 
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil dihapus');
+=======
+        $film->delete();
+
+        return redirect()->route('film.index')->with('success', 'Film berhasil dihapus');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 }

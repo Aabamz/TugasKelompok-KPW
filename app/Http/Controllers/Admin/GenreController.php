@@ -23,7 +23,11 @@ class GenreController extends Controller
     {
         $request->validate(['nama' => 'required|max:45']);
         Genre::create($request->all());
+<<<<<<< HEAD
         return redirect()->route('admin.genre.index')->with('success', 'Genre berhasil ditambahkan');
+=======
+        return redirect()->route('genre.index')->with('success', 'Genre berhasil ditambahkan');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 
     public function edit(Genre $genre)
@@ -35,12 +39,20 @@ class GenreController extends Controller
     {
         $request->validate(['nama' => 'required|max:45']);
         $genre->update($request->all());
+<<<<<<< HEAD
         return redirect()->route('admin.genre.index')->with('success', 'Genre berhasil diupdate');
+=======
+        return redirect()->route('genre.index')->with('success', 'Genre berhasil diupdate');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 
     public function destroy(Genre $genre)
     {
         $genre->delete();
+<<<<<<< HEAD
         return redirect()->route('admin.genre.index')->with('success', 'Genre berhasil dihapus');
+=======
+        return redirect()->route('genre.index')->with('success', 'Genre berhasil dihapus');
+>>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 }
