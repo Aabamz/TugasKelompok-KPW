@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-<<<<<<< HEAD
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,23 +70,11 @@ class ProfileController extends Controller
             'people' => $people,
             'title' => $user->name . ' Following',
         ]);
-=======
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-class ProfileController extends Controller
-{
-    public function show()
-    {
-        $user = Auth::user()->load('profile');
-        return view('user.profile.show', compact('user'));
->>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 
     public function update(Request $request)
     {
         $request->validate([
-<<<<<<< HEAD
             'umur'         => 'required|numeric|min:1',
             'bio'          => 'required|string',
             'alamat'       => 'required|string',
@@ -121,24 +108,6 @@ class ProfileController extends Controller
                 'bio'          => $request->bio,
                 'alamat'       => $request->alamat,
                 'social_links' => $socialLinks,
-=======
-            'umur'   => 'required|numeric|min:1',
-            'bio'    => 'required|string',
-            'alamat' => 'required|string',
-        ]);
-
-        $userId = Auth::id();
-
-        // Update atau buat profile jika belum ada 
-         // Update atau buat profile jika belum ada
-          // Update atau buat profile jika belum ada
-        Profile::updateOrCreate(
-            ['user_id' => $userId],
-            [
-                'umur'   => $request->umur,
-                'bio'    => $request->bio,
-                'alamat' => $request->alamat,
->>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
             ]
         );
 

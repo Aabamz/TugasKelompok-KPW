@@ -23,11 +23,4 @@ class AppServiceProvider extends ServiceProvider
             return $user->role === 'user';
         });
     }
-<<<<<<< HEAD
 }
-=======
-}
-  // Update atau buat profile jika belum ada 
-         // Update atau buat profile jika belum ada
-          // Update atau buat profile jika belum ada
->>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021

@@ -16,7 +16,6 @@ class KritikController extends Controller
             return redirect()->back()->with('error', 'Administrator tidak diizinkan memberi ulasan.');
         }
 
-<<<<<<< HEAD
         $isReply = $request->filled('parent_id');
 
         $request->validate([
@@ -34,20 +33,5 @@ class KritikController extends Controller
         ]);
 
         return redirect()->back()->with('success', $isReply ? 'Balasan berhasil dikirim!' : 'Ulasan berhasil ditambahkan!');
-=======
-        $request->validate([
-            'content' => 'required|string',
-            'point'   => 'required|integer|min:1|max:5',
-        ]);
-
-        Kritik::create([
-            'user_id' => Auth::id(),
-            'film_id' => $filmId,
-            'content' => $request->content,
-            'point'   => $request->point,
-        ]);
-
-        return redirect()->back()->with('success', 'Ulasan berhasil ditambahkan!');
->>>>>>> d24e364a9782d2a0de58826f07610dd5dbfb1021
     }
 }
