@@ -29,17 +29,24 @@ class FilmController extends Controller
             'ringkasan' => 'required',
             'tahun'     => 'required|numeric',
             'poster'    => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
             'genre_id'  => 'required|exists:genre,id',
         ]);
 
         // Upload Gambar Poster
         $posterPath = $request->file('poster')->store('posters', 'public');
 
+        // Upload Video (opsional)
+        $videoPath = $request->hasFile('video')
+            ? $request->file('video')->store('videos', 'public')
+            : null;
+
         Film::create([
             'judul'     => $request->judul,
             'ringkasan' => $request->ringkasan,
             'tahun'     => $request->tahun,
             'poster'    => $posterPath,
+            'video'     => $videoPath,
             'genre_id'  => $request->genre_id,
         ]);
 
@@ -59,6 +66,7 @@ class FilmController extends Controller
             'ringkasan' => 'required',
             'tahun'     => 'required|numeric',
             'poster'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
             'genre_id'  => 'required|exists:genre,id',
         ]);
 
@@ -72,6 +80,14 @@ class FilmController extends Controller
             $data['poster'] = $request->file('poster')->store('posters', 'public');
         }
 
+        if ($request->hasFile('video')) {
+            // Hapus video lama
+            if ($film->video && Storage::disk('public')->exists($film->video)) {
+                Storage::disk('public')->delete($film->video);
+            }
+            $data['video'] = $request->file('video')->store('videos', 'public');
+        }
+
         $film->update($data);
 
         return redirect()->route('admin.film.index')->with('success', 'Film berhasil diupdate');
@@ -81,6 +97,9 @@ class FilmController extends Controller
     {
         if ($film->poster && Storage::disk('public')->exists($film->poster)) {
             Storage::disk('public')->delete($film->poster);
+        }
+        if ($film->video && Storage::disk('public')->exists($film->video)) {
+            Storage::disk('public')->delete($film->video);
         }
         $film->delete();
 

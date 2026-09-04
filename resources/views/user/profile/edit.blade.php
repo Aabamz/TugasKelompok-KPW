@@ -61,6 +61,23 @@
                         <label>Alamat</label>
                         <textarea name="alamat" class="form-control" rows="3" placeholder="Masukkan alamat..." required>{{ old('alamat', $user->profile->alamat ?? '') }}</textarea>
                     </div>
+                    <div class="form-group">
+                        <label>Social Accounts</label>
+                        @php($existingLinks = old('social_links', $user->profile->social_links ?? []))
+                        @for($i = 0; $i < 4; $i++)
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-secondary text-white"><i class="fas fa-link"></i></span>
+                                </div>
+                                <input type="url" name="social_links[]" class="form-control @error('social_links.' . $i) is-invalid @enderror"
+                                       value="{{ $existingLinks[$i] ?? '' }}" placeholder="Link ke social profile {{ $i + 1 }}">
+                            </div>
+                            @error('social_links.' . $i)
+                                <div class="text-danger small mb-2">{{ $message }}</div>
+                            @enderror
+                        @endfor
+                        <small class="form-text text-muted">Boleh dikosongkan. Contoh: https://www.instagram.com/username</small>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Simpan Perubahan</button>

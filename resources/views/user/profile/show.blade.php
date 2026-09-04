@@ -35,10 +35,14 @@
                 {{-- Followers / Following / Following-count --}}
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item bg-transparent">
-                        <b>Followers</b> <span class="float-right">{{ $user->followers()->count() }}</span>
+                        <a href="{{ route('profile.followers', $user->id) }}" class="text-white d-flex justify-content-between">
+                            <b>Followers</b> <span>{{ $user->followers()->count() }}</span>
+                        </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <b>Following</b> <span class="float-right">{{ $user->following()->count() }}</span>
+                        <a href="{{ route('profile.following', $user->id) }}" class="text-white d-flex justify-content-between">
+                            <b>Following</b> <span>{{ $user->following()->count() }}</span>
+                        </a>
                     </li>
                 </ul>
 
@@ -85,6 +89,29 @@
                     <div class="col-sm-3"><i class="fas fa-map-marker-alt mr-1"></i> Alamat</div>
                     <div class="col-sm-9 text-muted">{{ $user->profile->alamat ?? '-' }}</div>
                 </div>
+                @if(!empty($user->profile->social_links))
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3"><i class="fas fa-share-alt mr-1"></i> Social</div>
+                        <div class="col-sm-9">
+                            @foreach($user->profile->social_links as $link)
+                                @php
+                                    $icon = 'fas fa-link';
+                                    if (str_contains($link, 'instagram.com')) $icon = 'fab fa-instagram';
+                                    elseif (str_contains($link, 'tiktok.com')) $icon = 'fab fa-tiktok';
+                                    elseif (str_contains($link, 'github.com')) $icon = 'fab fa-github';
+                                    elseif (str_contains($link, 'twitter.com') || str_contains($link, 'x.com')) $icon = 'fab fa-twitter';
+                                    elseif (str_contains($link, 'youtube.com')) $icon = 'fab fa-youtube';
+                                    elseif (str_contains($link, 'facebook.com')) $icon = 'fab fa-facebook';
+                                    elseif (str_contains($link, 'linkedin.com')) $icon = 'fab fa-linkedin';
+                                @endphp
+                                <a href="{{ $link }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary mr-2 mb-2">
+                                    <i class="{{ $icon }} mr-1"></i> {{ parse_url($link, PHP_URL_HOST) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

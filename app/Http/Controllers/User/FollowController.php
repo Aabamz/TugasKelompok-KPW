@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\FollowedNotification;
 use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
@@ -22,6 +23,7 @@ class FollowController extends Controller
             $message = 'Berhenti mengikuti ' . $user->name;
         } else {
             $me->following()->attach($user->id);
+            $user->notify(new FollowedNotification($me));
             $message = 'Sekarang kamu mengikuti ' . $user->name;
         }
 

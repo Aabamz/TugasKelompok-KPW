@@ -23,10 +23,20 @@
 @endif
 
 <div class="row">
-    {{-- Poster --}}
+    {{-- Poster / Video --}}
     <div class="col-md-4 mb-3">
-        <div class="card bg-dark text-white">
-            <img src="{{ asset('storage/' . $film->poster) }}" class="card-img-top" alt="{{ $film->judul }}">
+        <div class="card bg-dark text-white position-relative">
+            <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="position-absolute" style="top:10px; right:10px; z-index:2;">
+                @csrf
+                <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="{{ $isWishlisted ? 'Hapus dari wishlist' : 'Tambah ke wishlist' }}">
+                    <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart text-danger"></i>
+                </button>
+            </form>
+            @if($film->video)
+                <video src="{{ asset('storage/' . $film->video) }}" poster="{{ asset('storage/' . $film->poster) }}" controls class="card-img-top" style="width:100%;"></video>
+            @else
+                <img src="{{ asset('storage/' . $film->poster) }}" class="card-img-top" alt="{{ $film->judul }}">
+            @endif
         </div>
     </div>
 
@@ -34,7 +44,16 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <h3>{{ $film->judul }} <small class="text-muted">({{ $film->tahun }})</small></h3>
+                <div class="d-flex justify-content-between align-items-start">
+                    <h3>{{ $film->judul }} <small class="text-muted">({{ $film->tahun }})</small></h3>
+                    <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart mr-1"></i> {{ $isWishlisted ? 'Di Wishlist' : 'Tambah ke Wishlist' }}
+                        </button>
+                        <small class="text-muted d-block text-center mt-1">{{ $film->wishlisted_by_count }} orang wishlist</small>
+                    </form>
+                </div>
                 <p><span class="badge badge-info">{{ $film->genre->nama ?? 'Tanpa Genre' }}</span></p>
 
                 @php $jumlahRating = $film->kritik->count(); @endphp
@@ -139,6 +158,46 @@
                     </div>
                     <p class="mb-0">{{ $kritik->content }}</p>
                     <small class="text-muted">{{ $kritik->created_at->diffForHumans() }}</small>
+
+                    @if(!Auth::user()->isAdmin())
+                        <div>
+                            <button type="button" class="btn btn-link btn-sm p-0" onclick="toggleReplyForm({{ $kritik->id }})">
+                                <i class="fas fa-reply mr-1"></i> Balas
+                            </button>
+                        </div>
+
+                        {{-- Form balas, tersembunyi sampai tombol "Balas" diklik --}}
+                        <form action="{{ route('kritik.store', $film->id) }}" method="POST" id="reply-form-{{ $kritik->id }}" class="mt-2" style="display:none;">
+                            @csrf
+                            <input type="hidden" name="parent_id" value="{{ $kritik->id }}">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="content" class="form-control" placeholder="Tulis balasan untuk {{ $kritik->user->name ?? 'Pengguna' }}..." required>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
+
+                    {{-- Daftar balasan --}}
+                    @if($kritik->replies->count())
+                        <div class="mt-3 pl-3 border-left">
+                            @foreach($kritik->replies as $reply)
+                                <div class="media mb-2">
+                                    <img src="{{ $reply->user->avatar ? asset('storage/' . $reply->user->avatar) : 'https://i.pravatar.cc/150?u=' . ($reply->user->id ?? 0) }}" alt="Foto profil" class="img-circle mr-2" style="width:28px;height:28px;object-fit:cover;">
+                                    <div class="media-body">
+                                        <h6 class="mt-0 mb-0 font-weight-bold" style="font-size: 0.9rem;">
+                                            <a href="{{ route('profile.view', $reply->user->id ?? 0) }}" class="text-dark">
+                                                {{ $reply->user->name ?? 'Pengguna' }}
+                                            </a>
+                                        </h6>
+                                        <p class="mb-0" style="font-size: 0.9rem;">{{ $reply->content }}</p>
+                                        <small class="text-muted">{{ $reply->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         @empty
@@ -146,5 +205,14 @@
         @endforelse
     </div>
 </div>
+
+@push('js')
+<script>
+    function toggleReplyForm(kritikId) {
+        const form = document.getElementById('reply-form-' + kritikId);
+        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    }
+</script>
+@endpush
 
 @stop

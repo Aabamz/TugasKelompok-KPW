@@ -10,7 +10,7 @@ class Film extends Model
     use HasFactory;
 
     protected $table = 'film';
-    protected $fillable = ['judul', 'ringkasan', 'tahun', 'poster', 'genre_id'];
+    protected $fillable = ['judul', 'ringkasan', 'tahun', 'poster', 'video', 'genre_id'];
 
     public function genre()
     {
@@ -25,5 +25,17 @@ class Film extends Model
     public function kritik()
     {
         return $this->hasMany(Kritik::class, 'film_id');
+    }
+
+    // Hanya ulasan utama (bukan balasan) - dipakai untuk hitung rating
+    public function ulasanUtama()
+    {
+        return $this->hasMany(Kritik::class, 'film_id')->whereNull('parent_id');
+    }
+
+    // User-user yang mem-wishlist film ini
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlists', 'film_id', 'user_id')->withTimestamps();
     }
 }

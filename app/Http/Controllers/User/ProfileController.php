@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+    // Halaman cari & browse user lain
+    public function search(Request $request)
+    {
+        $keyword = $request->query('q');
+
+        $users = User::where('id', '!=', Auth::id())
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('name')
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('user.profile.search', compact('users', 'keyword'));
+    }
+
     // Halaman "kartu profil" baca-saja milik sendiri
     public function show()
     {
@@ -34,13 +50,37 @@ class ProfileController extends Controller
         return view('user.profile.edit', compact('user'));
     }
 
+    // Daftar orang yang mengikuti $user
+    public function followers(User $user)
+    {
+        $people = $user->followers()->paginate(12);
+        return view('user.profile.follow-list', [
+            'user'  => $user,
+            'people' => $people,
+            'title' => 'Followers ' . $user->name,
+        ]);
+    }
+
+    // Daftar orang yang diikuti $user
+    public function followingList(User $user)
+    {
+        $people = $user->following()->paginate(12);
+        return view('user.profile.follow-list', [
+            'user'  => $user,
+            'people' => $people,
+            'title' => $user->name . ' Following',
+        ]);
+    }
+
     public function update(Request $request)
     {
         $request->validate([
-            'umur'   => 'required|numeric|min:1',
-            'bio'    => 'required|string',
-            'alamat' => 'required|string',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'umur'         => 'required|numeric|min:1',
+            'bio'          => 'required|string',
+            'alamat'       => 'required|string',
+            'avatar'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'social_links'   => 'nullable|array|max:4',
+            'social_links.*' => 'nullable|url|max:255',
         ]);
 
         $user = Auth::user();
@@ -57,13 +97,17 @@ class ProfileController extends Controller
             $user->save();
         }
 
+        // Buang input link kosong sebelum disimpan
+        $socialLinks = array_values(array_filter($request->input('social_links', []), fn ($url) => !empty($url)));
+
         // Update atau buat profile jika belum ada
         Profile::updateOrCreate(
             ['user_id' => $user->id],
             [
-                'umur'   => $request->umur,
-                'bio'    => $request->bio,
-                'alamat' => $request->alamat,
+                'umur'         => $request->umur,
+                'bio'          => $request->bio,
+                'alamat'       => $request->alamat,
+                'social_links' => $socialLinks,
             ]
         );
 

@@ -1,30 +1,28 @@
 @extends('adminlte::page')
 
-@section('title', 'Katalog Film')
+@section('title', 'Wishlist Saya')
 
 @section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>Katalog Film</h1>
-        <form action="{{ route('dashboard') }}" method="GET" class="form-inline">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari film..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </form>
-    </div>
+    <h1>Wishlist Saya</h1>
 @stop
 
 @section('content')
+
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@endif
+
 <div class="row">
     @forelse($films as $film)
         <div class="col-md-3 col-sm-6 mb-4">
             <div class="card h-100 border-0 shadow-sm position-relative">
                 <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="position-absolute" style="top:10px; right:10px; z-index:2;">
                     @csrf
-                    <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="{{ in_array($film->id, $wishlistedIds) ? 'Hapus dari wishlist' : 'Tambah ke wishlist' }}">
-                        <i class="{{ in_array($film->id, $wishlistedIds) ? 'fas' : 'far' }} fa-heart text-danger"></i>
+                    <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="Hapus dari wishlist">
+                        <i class="fas fa-heart text-danger"></i>
                     </button>
                 </form>
                 <img src="{{ asset('storage/' . $film->poster) }}" class="card-img-top" alt="{{ $film->judul }}" style="height: 300px; object-fit: cover;">
@@ -45,9 +43,6 @@
                     </div>
                     <h5 class="card-title font-weight-bold text-truncate">{{ $film->judul }}</h5>
                     <small class="text-muted mb-2"><i class="fas fa-heart text-danger mr-1"></i> {{ $film->wishlisted_by_count }} orang wishlist</small>
-                    <p class="card-text text-muted small flex-grow-1" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                        {{ $film->ringkasan }}
-                    </p>
                     <a href="{{ route('film.detail', $film->id) }}" class="btn btn-primary btn-block btn-sm mt-2">
                         <i class="fas fa-eye"></i> Lihat Detail
                     </a>
@@ -56,9 +51,10 @@
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <i class="fas fa-film fa-3x text-muted mb-3"></i>
-            <p class="text-muted">Film tidak ditemukan atau belum ada data film di database.</p>
+            <i class="fas fa-heart-broken fa-3x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada film yang di-wishlist. Yuk cari film menarik di Katalog!</p>
         </div>
     @endforelse
 </div>
+
 @stop

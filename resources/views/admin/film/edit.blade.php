@@ -57,6 +57,18 @@
                     <span class="invalid-feedback d-block">{{ $message }}</span>
                 @enderror
             </div>
+            <div class="form-group">
+                @if($film->video)
+                    <label>Video Saat Ini</label>
+                    <video src="{{ asset('storage/' . $film->video) }}" controls class="d-block mb-2" style="max-width:100%;height:180px;"></video>
+                @endif
+                <label>{{ $film->video ? 'Ganti Video (opsional)' : 'Upload Video Film (opsional)' }}</label>
+                <input type="file" name="video" class="form-control-file @error('video') is-invalid @enderror" accept="video/*">
+                <small class="text-muted">Format MP4/MOV/AVI/WEBM, maksimal 50MB. Kosongkan jika tidak ingin mengganti video.</small>
+                @error('video')
+                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                @enderror
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Update</button>

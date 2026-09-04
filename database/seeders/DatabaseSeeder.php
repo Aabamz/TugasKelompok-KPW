@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-<<<<<<< HEAD
         // Akun Administrator
         User::factory()->create([
             'name'  => 'Admin',
@@ -32,13 +31,5 @@ class DatabaseSeeder extends Seeder
 
         // Data Film, Genre, Cast & Peran
         $this->call(FilmSeeder::class);
-=======
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
->>>>>>> 79064e91894921fb0130794e5dc02db441f554a9
     }
 }

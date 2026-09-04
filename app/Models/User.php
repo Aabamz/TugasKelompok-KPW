@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasPushSubscriptions;
 
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+        'avatar',
+        'phone',
+        'bio',
     ];
 
     public function profile()
@@ -47,5 +51,16 @@ class User extends Authenticatable
     public function isFollowing(User $user): bool
     {
         return $this->following()->where('following_id', $user->id)->exists();
+    }
+
+    // Film-film yang di-wishlist oleh user ini
+    public function wishlists()
+    {
+        return $this->belongsToMany(Film::class, 'wishlists', 'user_id', 'film_id')->withTimestamps();
+    }
+
+    public function hasWishlisted(Film $film): bool
+    {
+        return $this->wishlists()->where('film_id', $film->id)->exists();
     }
 }

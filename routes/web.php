@@ -16,10 +16,15 @@ use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\KritikController;
 use App\Http\Controllers\User\FollowController;
+use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\PushSubscriptionController;
+use App\Http\Controllers\User\WishlistController;
 
 // 1. Guest Routes (Tanpa Auth)
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
 
 Route::middleware('guest')->group(function () {
@@ -39,10 +44,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/film/{id}/kritik', [KritikController::class, 'store'])->name('kritik.store');
 
     // Profile User
+    Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifikasi/data', [NotificationController::class, 'data'])->name('notifications.data');
+    Route::post('/webpush/subscribe', [PushSubscriptionController::class, 'subscribe'])->name('webpush.subscribe');
+    Route::post('/webpush/unsubscribe', [PushSubscriptionController::class, 'unsubscribe'])->name('webpush.unsubscribe');
+    Route::get('/webpush/client.js', [PushSubscriptionController::class, 'clientScript'])->name('webpush.client');
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{film}/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
+    Route::get('/cari-pengguna', [UserProfileController::class, 'search'])->name('profile.search');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/{user}', [UserProfileController::class, 'view'])->name('profile.view');
+    Route::get('/profile/{user}/followers', [UserProfileController::class, 'followers'])->name('profile.followers');
+    Route::get('/profile/{user}/following', [UserProfileController::class, 'followingList'])->name('profile.following');
     Route::post('/profile/{user}/follow', [FollowController::class, 'toggle'])->name('profile.follow');
 
     // Menu Opsional

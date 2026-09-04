@@ -304,6 +304,21 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'id'             => 'follow-notification',
+            'type'           => 'navbar-notification',
+            'icon'           => 'far fa-bell',
+            'label'          => '0',
+            'label_color'    => 'danger',
+            'route'          => 'notifications.index',
+            'dropdown_mode'  => true,
+            'dropdown_flabel' => 'Lihat Semua Notifikasi',
+            'update_cfg'     => [
+                'route'  => 'notifications.data',
+                'period' => 30,
+            ],
+            'topnav_right'   => true,
+        ],
 
         // Menu Utama
         ['header' => 'MAIN MENU'],
@@ -356,6 +371,16 @@ return [
             'text' => 'Profil Saya',
             'url'  => 'profile', // Dibuat oleh Aira
             'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Cari Pengguna',
+            'url'  => 'cari-pengguna',
+            'icon' => 'fas fa-fw fa-user-friends',
+        ],
+        [
+            'text' => 'Wishlist Saya',
+            'url'  => 'wishlist',
+            'icon' => 'fas fa-fw fa-heart',
         ],
         [
             'text' => 'Settings',
@@ -414,6 +439,16 @@ return [
     */
 
     'plugins' => [
+        'WebPush' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '/webpush/client.js',
+                ],
+            ],
+        ],
         'Datatables' => [
             'active' => false,
             'files' => [
