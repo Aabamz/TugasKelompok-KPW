@@ -50,6 +50,22 @@
                         <small class="form-text text-muted">Format JPG/PNG/GIF, maksimal 2MB.</small>
                     </div>
                     <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" id="email-input" class="form-control @error('email') is-invalid @enderror"
+                               value="{{ old('email', $user->email) }}" required
+                               onchange="document.getElementById('current-password-wrapper').style.display = (this.value !== '{{ $user->email }}') ? 'block' : 'none';">
+                        @error('email')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group" id="current-password-wrapper" style="display: {{ old('email') && old('email') !== $user->email ? 'block' : 'none' }};">
+                        <label>Password Saat Ini <small class="text-muted">(wajib diisi kalau email diganti)</small></label>
+                        <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Masukkan password kamu saat ini">
+                        @error('current_password')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Umur</label>
                         <input type="number" name="umur" class="form-control" value="{{ old('umur', $user->profile->umur ?? '') }}" placeholder="Masukkan umur" required>
                     </div>

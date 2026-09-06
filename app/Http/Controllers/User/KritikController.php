@@ -34,4 +34,18 @@ class KritikController extends Controller
 
         return redirect()->back()->with('success', $isReply ? 'Balasan berhasil dikirim!' : 'Ulasan berhasil ditambahkan!');
     }
+
+    public function destroy(Kritik $kritik)
+    {
+        $user = Auth::user();
+
+        // Hanya pemilik komentar atau admin yang boleh menghapus
+        if ($kritik->user_id !== $user->id && !$user->isAdmin()) {
+            abort(403, 'Kamu tidak diizinkan menghapus komentar ini.');
+        }
+
+        $kritik->delete(); // Balasan di bawahnya ikut terhapus otomatis (cascade)
+
+        return redirect()->back()->with('success', $kritik->parent_id ? 'Balasan dihapus.' : 'Ulasan dihapus.');
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\Admin\GenreController;
 use App\Http\Controllers\Admin\CastController;
 use App\Http\Controllers\Admin\PeranController;
@@ -32,25 +33,37 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
+
+    // Lupa Password
+    Route::get('/password/reset', [PasswordResetController::class, 'showEmailForm'])->name('password.request');
+    Route::post('/password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Script push notification harus bisa diakses tanpa login,
+// supaya tidak "membajak" intended URL waktu user belum login
+Route::get('/webpush/client.js', [PushSubscriptionController::class, 'clientScript'])->name('webpush.client');
 
 // 2. Authenticated Routes (Bisa Diakses Admin & User Biasa)
 Route::middleware('auth')->group(function () {
     // Dashboard / Katalog Film
     Route::get('/dashboard', [KatalogController::class, 'index'])->name('dashboard');
     Route::get('/film/{id}', [KatalogController::class, 'show'])->name('film.detail');
+    Route::get('/film/{id}/comments', [KatalogController::class, 'comments'])->name('film.comments');
     Route::post('/film/{id}/kritik', [KritikController::class, 'store'])->name('kritik.store');
+    Route::delete('/kritik/{kritik}', [KritikController::class, 'destroy'])->name('kritik.destroy');
 
     // Profile User
     Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifikasi/data', [NotificationController::class, 'data'])->name('notifications.data');
     Route::post('/webpush/subscribe', [PushSubscriptionController::class, 'subscribe'])->name('webpush.subscribe');
     Route::post('/webpush/unsubscribe', [PushSubscriptionController::class, 'unsubscribe'])->name('webpush.unsubscribe');
-    Route::get('/webpush/client.js', [PushSubscriptionController::class, 'clientScript'])->name('webpush.client');
 
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('/profile/{user}/wishlist', [WishlistController::class, 'show'])->name('wishlist.show');
     Route::post('/wishlist/{film}/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
     Route::get('/cari-pengguna', [UserProfileController::class, 'search'])->name('profile.search');

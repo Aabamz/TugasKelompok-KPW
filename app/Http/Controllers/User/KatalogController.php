@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Film;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class KatalogController extends Controller
@@ -18,12 +19,39 @@ class KatalogController extends Controller
             $query->where('judul', 'like', '%' . $request->search . '%');
         }
 
-        $films = $query->latest()->get();
+        // Filter Genre
+        if ($request->filled('genre_id')) {
+            $query->where('genre_id', $request->genre_id);
+        }
+
+        // Filter Tahun
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->tahun);
+        }
+
+        // Urutan tampilan
+        switch ($request->input('sort', 'terbaru')) {
+            case 'populer':
+                $query->orderByDesc('ulasan_utama_avg_point');
+                break;
+            case 'terlama':
+                $query->oldest();
+                break;
+            default: // terbaru
+                $query->latest();
+                break;
+        }
+
+        $films = $query->get();
+
+        // Data buat dropdown filter
+        $genres = Genre::orderBy('nama')->get();
+        $tahunList = Film::select('tahun')->distinct()->orderByDesc('tahun')->pluck('tahun');
 
         // Tandai film mana yang sudah di-wishlist user yang login
         $wishlistedIds = $request->user()->wishlists()->pluck('film.id')->toArray();
 
-        return view('dashboard', compact('films', 'wishlistedIds'));
+        return view('dashboard', compact('films', 'wishlistedIds', 'genres', 'tahunList'));
     }
 
     // Menampilkan Detail Film
@@ -37,5 +65,15 @@ class KatalogController extends Controller
         $isWishlisted = auth()->user()->hasWishlisted($film);
 
         return view('user.katalog.show', compact('film', 'isWishlisted'));
+    }
+
+    // Dipanggil AJAX (polling) untuk refresh daftar ulasan tanpa reload halaman
+    public function comments($id)
+    {
+        $film = Film::with([
+            'kritik' => fn ($q) => $q->whereNull('parent_id')->with(['user', 'replies']),
+        ])->findOrFail($id);
+
+        return view('user.katalog.partials.comments', compact('film'));
     }
 }

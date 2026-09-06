@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -74,7 +75,10 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        $user = Auth::user();
+
         $request->validate([
+            'email'        => 'required|email|max:255|unique:users,email,' . $user->id,
             'umur'         => 'required|numeric|min:1',
             'bio'          => 'required|string',
             'alamat'       => 'required|string',
@@ -83,7 +87,18 @@ class ProfileController extends Controller
             'social_links.*' => 'nullable|url|max:255',
         ]);
 
-        $user = Auth::user();
+        // Kalau email diganti, wajib konfirmasi password saat ini demi keamanan
+        if ($request->email !== $user->email) {
+            $request->validate([
+                'current_password' => 'required',
+            ]);
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.'])->withInput();
+            }
+
+            $user->email = $request->email;
+        }
 
         // Proses upload foto profil (jika user memilih file baru)
         if ($request->hasFile('avatar')) {
@@ -92,10 +107,10 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $avatarPath   = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
-            $user->save();
+            $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }
+
+        $user->save();
 
         // Buang input link kosong sebelum disimpan
         $socialLinks = array_values(array_filter($request->input('social_links', []), fn ($url) => !empty($url)));

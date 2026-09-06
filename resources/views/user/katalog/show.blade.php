@@ -22,37 +22,58 @@
     </div>
 @endif
 
-<div class="row">
-    {{-- Poster / Video --}}
-    <div class="col-md-4 mb-3">
-        <div class="card bg-dark text-white position-relative">
-            <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="position-absolute" style="top:10px; right:10px; z-index:2;">
+{{-- Player Cinema Full-Width (mirip LK21) --}}
+@if($film->video)
+    <div class="mb-3" style="background:#000; border-radius:4px; overflow:hidden;">
+        <video controls preload="metadata" poster="{{ asset('storage/' . $film->poster) }}" style="width:100%; max-height:600px; display:block; background:#000;">
+            <source src="{{ asset('storage/' . $film->video) }}">
+            Browser kamu tidak mendukung pemutaran video HTML5.
+        </video>
+        <div class="d-flex justify-content-between align-items-center px-3 py-2" style="background:#1a1a1a;">
+            <span class="text-muted small"><i class="fas fa-film mr-1"></i> {{ $film->judul }}</span>
+            <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="m-0">
                 @csrf
-                <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="{{ $isWishlisted ? 'Hapus dari wishlist' : 'Tambah ke wishlist' }}">
-                    <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart text-danger"></i>
+                <button type="submit" class="btn btn-sm btn-link text-light">
+                    <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart mr-1 text-danger"></i> {{ $isWishlisted ? 'Di Wishlist' : 'Tambah ke Wishlist' }}
                 </button>
             </form>
-            @if($film->video)
-                <video src="{{ asset('storage/' . $film->video) }}" poster="{{ asset('storage/' . $film->poster) }}" controls class="card-img-top" style="width:100%;"></video>
-            @else
-                <img src="{{ asset('storage/' . $film->poster) }}" class="card-img-top" alt="{{ $film->judul }}">
-            @endif
         </div>
     </div>
+@endif
+
+<div class="row">
+    {{-- Poster kecil (cuma tampil kalau film gak punya video) --}}
+    @unless($film->video)
+        <div class="col-md-4 mb-3">
+            <div class="card bg-dark text-white position-relative">
+                <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="position-absolute" style="top:10px; right:10px; z-index:2;">
+                    @csrf
+                    <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="{{ $isWishlisted ? 'Hapus dari wishlist' : 'Tambah ke wishlist' }}">
+                        <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart text-danger"></i>
+                    </button>
+                </form>
+                <img src="{{ asset('storage/' . $film->poster) }}" class="card-img-top" alt="{{ $film->judul }}">
+            </div>
+        </div>
+    @endunless
 
     {{-- Detail --}}
-    <div class="col-md-8">
+    <div class="{{ $film->video ? 'col-md-12' : 'col-md-8' }}">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <h3>{{ $film->judul }} <small class="text-muted">({{ $film->tahun }})</small></h3>
-                    <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                            <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart mr-1"></i> {{ $isWishlisted ? 'Di Wishlist' : 'Tambah ke Wishlist' }}
-                        </button>
-                        <small class="text-muted d-block text-center mt-1">{{ $film->wishlisted_by_count }} orang wishlist</small>
-                    </form>
+                    @if(!$film->video)
+                        <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="{{ $isWishlisted ? 'fas' : 'far' }} fa-heart mr-1"></i> {{ $isWishlisted ? 'Di Wishlist' : 'Tambah ke Wishlist' }}
+                            </button>
+                            <small class="text-muted d-block text-center mt-1">{{ $film->wishlisted_by_count }} orang wishlist</small>
+                        </form>
+                    @else
+                        <small class="text-muted">{{ $film->wishlisted_by_count }} orang wishlist</small>
+                    @endif
                 </div>
                 <p><span class="badge badge-info">{{ $film->genre->nama ?? 'Tanpa Genre' }}</span></p>
 
@@ -139,71 +160,8 @@
 @endif
 
 {{-- Daftar Kritik / Ulasan --}}
-<div class="card card-dark mt-3">
-    <div class="card-header">
-        <h3 class="card-title">Ulasan Penonton ({{ $film->kritik->count() }})</h3>
-    </div>
-    <div class="card-body">
-        @forelse($film->kritik->sortByDesc('created_at') as $kritik)
-            <div class="media mb-3 pb-3 border-bottom">
-                <img src="{{ $kritik->user->avatar ? asset('storage/' . $kritik->user->avatar) : 'https://i.pravatar.cc/150?u=' . ($kritik->user->id ?? 0) }}" alt="Foto profil" class="img-circle mr-3" style="width:40px;height:40px;object-fit:cover;">
-                <div class="media-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="mt-0 mb-1 font-weight-bold">
-                            <a href="{{ route('profile.view', $kritik->user->id ?? 0) }}" class="text-dark">
-                                {{ $kritik->user->name ?? 'Pengguna' }}
-                            </a>
-                        </h6>
-                        <span class="text-warning">{{ str_repeat('⭐', $kritik->point) }}</span>
-                    </div>
-                    <p class="mb-0">{{ $kritik->content }}</p>
-                    <small class="text-muted">{{ $kritik->created_at->diffForHumans() }}</small>
-
-                    @if(!Auth::user()->isAdmin())
-                        <div>
-                            <button type="button" class="btn btn-link btn-sm p-0" onclick="toggleReplyForm({{ $kritik->id }})">
-                                <i class="fas fa-reply mr-1"></i> Balas
-                            </button>
-                        </div>
-
-                        {{-- Form balas, tersembunyi sampai tombol "Balas" diklik --}}
-                        <form action="{{ route('kritik.store', $film->id) }}" method="POST" id="reply-form-{{ $kritik->id }}" class="mt-2" style="display:none;">
-                            @csrf
-                            <input type="hidden" name="parent_id" value="{{ $kritik->id }}">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="content" class="form-control" placeholder="Tulis balasan untuk {{ $kritik->user->name ?? 'Pengguna' }}..." required>
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    @endif
-
-                    {{-- Daftar balasan --}}
-                    @if($kritik->replies->count())
-                        <div class="mt-3 pl-3 border-left">
-                            @foreach($kritik->replies as $reply)
-                                <div class="media mb-2">
-                                    <img src="{{ $reply->user->avatar ? asset('storage/' . $reply->user->avatar) : 'https://i.pravatar.cc/150?u=' . ($reply->user->id ?? 0) }}" alt="Foto profil" class="img-circle mr-2" style="width:28px;height:28px;object-fit:cover;">
-                                    <div class="media-body">
-                                        <h6 class="mt-0 mb-0 font-weight-bold" style="font-size: 0.9rem;">
-                                            <a href="{{ route('profile.view', $reply->user->id ?? 0) }}" class="text-dark">
-                                                {{ $reply->user->name ?? 'Pengguna' }}
-                                            </a>
-                                        </h6>
-                                        <p class="mb-0" style="font-size: 0.9rem;">{{ $reply->content }}</p>
-                                        <small class="text-muted">{{ $reply->created_at->diffForHumans() }}</small>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            </div>
-        @empty
-            <p class="text-muted mb-0">Belum ada ulasan untuk film ini. Jadilah yang pertama memberi ulasan!</p>
-        @endforelse
-    </div>
+<div class="card card-dark mt-3" id="comments-section" data-film-id="{{ $film->id }}">
+    @include('user.katalog.partials.comments', ['film' => $film])
 </div>
 
 @push('js')
@@ -212,6 +170,32 @@
         const form = document.getElementById('reply-form-' + kritikId);
         form.style.display = (form.style.display === 'none') ? 'block' : 'none';
     }
+
+    // Auto-refresh daftar ulasan tiap 8 detik, tanpa reload halaman
+    (function () {
+        const section = document.getElementById('comments-section');
+        const filmId = section.dataset.filmId;
+        const refreshUrl = '{{ route("film.comments", ":id") }}'.replace(':id', filmId);
+
+        function isUserTyping() {
+            // Jangan timpa halaman kalau user lagi ngetik balasan
+            const active = document.activeElement;
+            return active && active.tagName === 'INPUT' && active.closest('.reply-form');
+        }
+
+        function refreshComments() {
+            if (isUserTyping()) return;
+
+            fetch(refreshUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(res => res.text())
+                .then(html => {
+                    section.innerHTML = html;
+                })
+                .catch(err => console.log('Gagal refresh komentar:', err));
+        }
+
+        setInterval(refreshComments, 8000);
+    })();
 </script>
 @endpush
 

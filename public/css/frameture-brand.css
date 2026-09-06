@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
+/* Tulisan "Frameture" di sidebar */
+.brand-text {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+}
+
+/* Tulisan "Frameture" di halaman Login/Register */
+.login-logo,
+.register-logo {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    font-size: 2.1rem;
+}
+
+.login-logo b,
+.register-logo b {
+    font-weight: 700 !important;
+}

@@ -3,20 +3,89 @@
 @section('title', 'Katalog Film')
 
 @section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
         <h1>Katalog Film</h1>
-        <form action="{{ route('dashboard') }}" method="GET" class="form-inline">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari film..." value="{{ request('search') }}">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-search"></i></button>
+        <div class="d-flex">
+            <form action="{{ route('dashboard') }}" method="GET" class="form-inline mr-2">
+                @if(request('genre_id'))<input type="hidden" name="genre_id" value="{{ request('genre_id') }}">@endif
+                @if(request('tahun'))<input type="hidden" name="tahun" value="{{ request('tahun') }}">@endif
+                @if(request('sort'))<input type="hidden" name="sort" value="{{ request('sort') }}">@endif
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari film..." value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            {{-- Dropdown Filter --}}
+            <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-filter mr-1"></i> Filter
+                </button>
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow" style="min-width: 280px;" aria-labelledby="filterDropdown">
+                    <p class="text-muted small mb-3">Tampilkan daftar film sesuai dengan kesukaan Anda.</p>
+                    <form action="{{ route('dashboard') }}" method="GET">
+                        @if(request('search'))<input type="hidden" name="search" value="{{ request('search') }}">@endif
+
+                        <div class="form-group">
+                            <label class="small font-weight-bold">Urutkan</label>
+                            <select name="sort" class="form-control form-control-sm">
+                                <option value="terbaru" @selected(request('sort', 'terbaru') === 'terbaru')>Terbaru</option>
+                                <option value="populer" @selected(request('sort') === 'populer')>Populer (Rating)</option>
+                                <option value="terlama" @selected(request('sort') === 'terlama')>Terlama</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="small font-weight-bold">Genre</label>
+                            <select name="genre_id" class="form-control form-control-sm">
+                                <option value="">- Pilih Genre -</option>
+                                @foreach($genres as $genre)
+                                    <option value="{{ $genre->id }}" @selected((string) request('genre_id') === (string) $genre->id)>{{ $genre->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="small font-weight-bold">Tahun</label>
+                            <select name="tahun" class="form-control form-control-sm">
+                                <option value="">- Pilih Tahun -</option>
+                                @foreach($tahunList as $tahun)
+                                    <option value="{{ $tahun }}" @selected((string) request('tahun') === (string) $tahun)>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">Reset</a>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-filter mr-1"></i> Terapkan Filter</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 @stop
 
 @section('content')
+
+@if(request()->filled('genre_id') || request()->filled('tahun') || request()->filled('sort'))
+    <div class="mb-3">
+        <span class="text-muted small mr-2">Filter aktif:</span>
+        @if(request('sort') && request('sort') !== 'terbaru')
+            <span class="badge badge-primary mr-1">Urutan: {{ ucfirst(request('sort')) }}</span>
+        @endif
+        @if(request('genre_id'))
+            <span class="badge badge-info mr-1">Genre: {{ $genres->firstWhere('id', request('genre_id'))->nama ?? '-' }}</span>
+        @endif
+        @if(request('tahun'))
+            <span class="badge badge-secondary mr-1">Tahun: {{ request('tahun') }}</span>
+        @endif
+        <a href="{{ route('dashboard') }}" class="small ml-2"><i class="fas fa-times-circle"></i> Reset semua</a>
+    </div>
+@endif
+
 <div class="row">
     @forelse($films as $film)
         <div class="col-md-3 col-sm-6 mb-4">

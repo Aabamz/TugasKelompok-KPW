@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Frameture',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Frame</b>ture',
+    'logo_img' => 'images/frameture-logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'Frameture Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,13 +84,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
+            'path' => 'images/frameture-logo.png',
+            'alt' => 'Frameture Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 65,
+            'height' => 65,
         ],
     ],
 
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -303,6 +303,18 @@ return [
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
+        ],
+        [
+            'text'        => 'Profil Saya',
+            'route'       => 'profile.show',
+            'icon'        => 'fas fa-fw fa-user',
+            'topnav_user' => true,
+        ],
+        [
+            'text'        => 'Settings',
+            'route'       => 'settings.index',
+            'icon'        => 'fas fa-fw fa-cog',
+            'topnav_user' => true,
         ],
         [
             'id'             => 'follow-notification',
@@ -439,6 +451,16 @@ return [
     */
 
     'plugins' => [
+        'FrametureBrand' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type'     => 'css',
+                    'asset'    => false,
+                    'location' => '/css/frameture-brand.css',
+                ],
+            ],
+        ],
         'WebPush' => [
             'active' => true,
             'files' => [

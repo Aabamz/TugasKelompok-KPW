@@ -37,6 +37,15 @@ class WishlistController extends Controller
     {
         $films = Auth::user()->wishlists()->with('genre')->withAvg('ulasanUtama', 'point')->withCount('ulasanUtama')->withCount('wishlistedBy')->latest('wishlists.created_at')->get();
 
-        return view('user.wishlist.index', compact('films'));
+        return view('user.wishlist.index', ['films' => $films, 'profileUser' => Auth::user(), 'isOwner' => true]);
+    }
+
+    // Halaman daftar wishlist milik user manapun (bisa dilihat orang lain)
+    public function show(\App\Models\User $user)
+    {
+        $films = $user->wishlists()->with('genre')->withAvg('ulasanUtama', 'point')->withCount('ulasanUtama')->withCount('wishlistedBy')->latest('wishlists.created_at')->get();
+        $isOwner = $user->id === Auth::id();
+
+        return view('user.wishlist.index', ['films' => $films, 'profileUser' => $user, 'isOwner' => $isOwner]);
     }
 }

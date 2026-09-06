@@ -44,6 +44,11 @@
                             <b>Following</b> <span>{{ $user->following()->count() }}</span>
                         </a>
                     </li>
+                    <li class="list-group-item bg-transparent">
+                        <a href="{{ route('wishlist.show', $user->id) }}" class="text-white d-flex justify-content-between">
+                            <b>Wishlist</b> <span>{{ $user->wishlists()->count() }}</span>
+                        </a>
+                    </li>
                 </ul>
 
                 @if($isOwner)

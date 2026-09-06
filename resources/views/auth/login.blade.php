@@ -50,6 +50,11 @@
                 <button type="submit" class="btn btn-block btn-primary">Masuk</button>
             </div>
         </div>
+        <div class="row mt-2">
+            <div class="col-12 text-center">
+                <a href="{{ route('password.request') }}">Lupa password?</a>
+            </div>
+        </div>
     </form>
 @stop
 
