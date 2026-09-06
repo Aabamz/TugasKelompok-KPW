@@ -1,4 +1,4 @@
-# 🎬 Frameture
+# Frameture
 
 Frameture adalah aplikasi katalog & review film berbasis web, dibangun dengan Laravel dan AdminLTE. Pengguna bisa menjelajahi katalog film, memberi ulasan/rating, menyimpan film ke wishlist, serta terhubung dengan pengguna lain lewat sistem follow — lengkap dengan notifikasi real-time.
 
@@ -13,7 +13,7 @@ Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
 ---
 
-## ✨ Fitur
+## Fitur
 
 ### Autentikasi & Akun
 - Login & Register (dengan opsi kode registrasi khusus untuk mendaftar sebagai admin)
@@ -60,7 +60,7 @@ Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** Laravel 13, PHP 8.3+
 - **Frontend:** Blade Templating, AdminLTE 3, Bootstrap 4, Vite
@@ -70,7 +70,7 @@ Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
 ---
 
-## 🚀 Instalasi
+## Instalasi
 
 ```bash
 git clone <url-repo-ini>
@@ -96,7 +96,7 @@ Akun admin default (dari seeder):
 
 ---
 
-## 👥 Pembagian Tugas Kelompok
+## Pembagian Tugas Kelompok
 
 Struktur database dikerjakan terbagi 5 bagian sesuai tabel-tabel utama aplikasi. Setelah seluruh bagian database rampung, pengembangan fitur aplikasi (autentikasi, sosial, wishlist, notifikasi, panel admin, dsb.) serta seluruh perbaikan bug dilakukan secara terintegrasi oleh Zabran Farzana Azaria (Anggota 5).
 
