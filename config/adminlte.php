@@ -327,7 +327,7 @@ return [
             'dropdown_flabel' => 'Lihat Semua Notifikasi',
             'update_cfg'     => [
                 'route'  => 'notifications.data',
-                'period' => 30,
+                'period' => 5,
             ],
             'topnav_right'   => true,
         ],

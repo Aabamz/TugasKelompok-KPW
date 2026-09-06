@@ -1,79 +1,147 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎬 Frameture
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Frameture adalah aplikasi katalog & review film berbasis web, dibangun dengan Laravel dan AdminLTE. Pengguna bisa menjelajahi katalog film, memberi ulasan/rating, menyimpan film ke wishlist, serta terhubung dengan pengguna lain lewat sistem follow — lengkap dengan notifikasi real-time.
 
-## About Laravel
+Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Anggota Kelompok:**
+- Aira Rayyani Saifa Rahman (1)
+- Evan Septia Ramadan (9)
+- Fauzia Yuan Della (11)
+- Siva Mustika (31)
+- Zabran Farzana Azaria (35)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur
 
-## Learning Laravel
+### Autentikasi & Akun
+- Login & Register (dengan opsi kode registrasi khusus untuk mendaftar sebagai admin)
+- Lupa password — mengirim link reset password melalui email asli (SMTP)
+- Edit profil: foto profil, umur, bio, alamat
+- Ubah email akun (wajib konfirmasi password saat ini demi keamanan)
+- Social accounts di profil (Instagram, TikTok, GitHub, dll — ikon terdeteksi otomatis)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Sosial
+- Cari & jelajahi pengguna lain
+- Follow / Unfollow pengguna
+- Lihat daftar Followers & Following
+- Notifikasi in-app (lonceng di navbar) saat ada yang follow
+- Web Push Notification — notifikasi tetap muncul di HP/browser walau tab ditutup
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Katalog Film
+- Daftar film dengan poster, rating rata-rata, dan jumlah ulasan
+- Pencarian judul film
+- Filter berdasarkan Genre, Tahun, dan Urutan (Terbaru/Populer/Terlama)
+- Halaman detail film: sinopsis, genre, daftar pemeran (cast & peran)
+- Video player untuk film yang memiliki video (poster tampil dulu, video diputar saat diklik)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Wishlist
+- Tambah/hapus film dari wishlist (ikon hati)
+- Halaman "Wishlist Saya"
+- Wishlist bisa dilihat publik lewat halaman profil pengguna lain
+- Jumlah wishlist per film ditampilkan di katalog & detail film
 
-## Agentic Development
+### Ulasan & Komentar
+- Beri ulasan + rating bintang pada film (bukan admin)
+- Balas komentar/ulasan pengguna lain (reply bertingkat, seperti Instagram)
+- Hapus ulasan/balasan milik sendiri (atau oleh admin)
+- Daftar komentar auto-update tanpa reload halaman (polling berkala)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Admin Panel
+- Kelola Data Film (tambah/edit/hapus, upload poster & video)
+- Kelola Data Genre, Cast, dan Peran
+- Kelola Data User (lihat daftar pengguna terdaftar)
+- Admin tidak dapat memberi ulasan pada film
+
+### Branding & UI
+- Identitas aplikasi "Frameture" dengan logo & favicon custom
+- Tema AdminLTE dengan penyesuaian warna dan tipografi
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Laravel 13, PHP 8.3+
+- **Frontend:** Blade Templating, AdminLTE 3, Bootstrap 4, Vite
+- **Database:** SQLite
+- **Notifikasi:** Laravel Notifications (database + Web Push/VAPID)
+- **Autentikasi:** Session-based (Laravel default)
+
+---
+
+## 🚀 Instalasi
 
 ```bash
-composer require laravel/boost --dev
+git clone <url-repo-ini>
+cd TugasKelompok-KPW
 
-php artisan boost:install
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate
+
+# Sesuaikan koneksi database di .env, lalu:
+php artisan migrate --seed
+php artisan storage:link
+
+npm run build
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Akun admin default (dari seeder):
+- Email: `admin@example.com`
+- Password: `password`
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 👥 Pembagian Tugas Kelompok
 
-## Code of Conduct
+Struktur database dikerjakan terbagi 5 bagian sesuai tabel-tabel utama aplikasi. Setelah seluruh bagian database rampung, pengembangan fitur aplikasi (autentikasi, sosial, wishlist, notifikasi, panel admin, dsb.) serta seluruh perbaikan bug dilakukan secara terintegrasi oleh Zabran Farzana Azaria (Anggota 5).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Aira Rayyani Saifa Rahman — Setup Database, Konfigurasi, & Tabel Roles
+- Mengatur koneksi database di file `.env`.
+- Membuat migration dan seeder untuk tabel `roles` (misalnya role admin dan user).
+- **Commit Message:** `feat: add roles migration and database seeder`
+- **Status:** ✅ Selesai
 
-## Security Vulnerabilities
+#### Evan Septia Ramadan — Pembuatan Tabel Profile & Penyesuaian Tabel Users
+- Membuat migration dan model untuk tabel `profile`.
+- Membuat migration untuk mengubah struktur tabel `users` (menambahkan relasi `role_id` & `profile_id`, serta menyesuaikan kolom bawaan seperti `email_verified_at` & `remember_token`).
+- **Commit Message:** `feat: add profile table and update users table migration`
+- **Status:** ✅ Selesai
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Fauzia Yuan Della — Pembuatan Tabel Film & Genre
+- Membuat migration dan model untuk tabel `film` (menyimpan data film yang ditampilkan di dashboard).
+- Membuat migration dan model untuk tabel `genre` (kategori film).
+- **Commit Message:** `feat: add films and genres migration with models`
+- **Status:** ✅ Selesai
 
-## License
+#### Siva Mustika — Pembuatan Tabel Cast, Peran, & Kritik/Komentar
+- Membuat migration dan model untuk tabel `cast` (pemeran film) dan tabel `peran` (relasi film–cast).
+- Membuat migration dan model untuk tabel `kritik`/komentar (ulasan user pada film).
+- **Commit Message:** `feat: add cast, peran, and review tables migration`
+- **Status:** ✅ Selesai
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# TugasKelompok-KPW
-Aira Rayyani Saifa Rahman (1)
-Evan Septia Ramadan (9)
-Fauzia Yuan Della (11) 
-Siva Mustika (31)
-Zabran Farzana Azaria (35)
+#### Zabran Farzana Azaria — Finalisasi ERD, Integrasi Sistem, Pengembangan Fitur, & Debugging
+Tugas awal yang menjadi tanggung jawab bagian ini adalah finalisasi relasi database. Namun karena seluruh bagian database dari anggota 1–4 perlu digabungkan menjadi satu aplikasi yang utuh dan berjalan, bagian ini juga mencakup seluruh proses integrasi, pengembangan fitur, dan perbaikan bug di tahap akhir proyek.
 
-LIST PEKERJAAN
-Zabran : git checkout -b fitur-dashboard
+**Tugas awal (database):**
+- Memastikan seluruh relasi Foreign Key antar tabel (`users`, `profile`, `film`, `genre`, `cast`, `peran`, `kritik`, dan tabel pendukung lain) terhubung dengan benar pada migration.
+- Menyiapkan data dummy di `DatabaseSeeder.php` agar seluruh seeder dapat dijalankan bersamaan (`php artisan db:seed`).
+- **Commit Message:** `fix: finalize foreign keys and database seeder integration`
 
-Evan (Login): git checkout -b fitur-login
-
-Della (Register): git checkout -b fitur-register
-
-siva (Dashboard): git checkout -b fitur-sidebar
-
-Aira (Profile): git checkout -b fitur-profile
-
->>>>>>> 453efac63619f37c1d4e16d4f35ca574b47a73ec
+**Tugas lanjutan (integrasi & pengembangan fitur):**
+- Menyelesaikan seluruh konflik merge (merge conflict) dari hasil pekerjaan anggota 1–4 agar kode dapat berjalan tanpa error.
+- Membangun sistem upload & tampilan foto profil, video film, dan poster.
+- Membangun fitur sosial: pencarian pengguna, follow/unfollow, daftar followers & following.
+- Membangun sistem notifikasi (in-app dan Web Push) saat ada aktivitas follow.
+- Membangun fitur wishlist film, termasuk tampilan publik di halaman profil.
+- Membangun fitur balas komentar (reply) bertingkat beserta hak hapus komentar.
+- Membangun fitur pencarian & filter katalog film (genre, tahun, urutan).
+- Membangun sistem lupa password dengan pengiriman email reset yang fungsional.
+- Menerapkan branding aplikasi (nama, logo, favicon, tipografi).
+- Melakukan debugging menyeluruh (routing, cache, permission storage, konflik file) hingga aplikasi siap dipakai dan di-deploy untuk demo.
+- **Commit Message:** `feat: integrate modules, build core features, and resolve application-wide bugs`
+- **Status:** ✅ Selesai
