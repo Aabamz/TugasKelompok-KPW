@@ -175,7 +175,13 @@
     (function () {
         const section = document.getElementById('comments-section');
         const filmId = section.dataset.filmId;
-        const refreshUrl = '{{ route("film.comments", ":id") }}'.replace(':id', filmId);
+        const baseRefreshUrl = '{{ route("film.comments", ":id") }}'.replace(':id', filmId);
+
+        function refreshUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const sort = params.get('sort_ulasan') || 'terbaru';
+            return baseRefreshUrl + '?sort_ulasan=' + sort;
+        }
 
         function isUserTyping() {
             // Jangan timpa halaman kalau user lagi ngetik balasan
@@ -186,7 +192,7 @@
         function refreshComments() {
             if (isUserTyping()) return;
 
-            fetch(refreshUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            fetch(refreshUrl(), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
                 .then(res => res.text())
                 .then(html => {
                     section.innerHTML = html;
