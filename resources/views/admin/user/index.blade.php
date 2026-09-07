@@ -23,6 +23,7 @@
                     <th>#</th>
                     <th>Nama</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Umur</th>
                     <th>Alamat</th>
                     <th>Aksi</th>
@@ -34,6 +35,13 @@
                         <td>{{ $key + 1 }}</td>
                         <td><a href="{{ route('profile.view', $user->id) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @if($user->role === 'admin')
+                                <span class="badge badge-success">Admin</span>
+                            @else
+                                <span class="badge badge-secondary">User</span>
+                            @endif
+                        </td>
                         <td>{{ $user->profile->umur ?? '-' }}</td>
                         <td>{{ $user->profile->alamat ?? '-' }}</td>
                         <td>
@@ -48,7 +56,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="text-center">Belum ada user registered.</td></tr>
+                    <tr><td colspan="7" class="text-center">Belum ada user registered.</td></tr>
                 @endforelse
             </tbody>
         </table>
