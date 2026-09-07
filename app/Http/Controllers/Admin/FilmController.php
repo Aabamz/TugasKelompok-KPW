@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class FilmController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $films = Film::with('genre')->withAvg('kritik', 'point')->withCount('kritik')->get();
+        $query = Film::with('genre')->withAvg('kritik', 'point')->withCount('kritik');
+
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        $films = $query->latest()->get();
         return view('admin.film.index', compact('films'));
     }
 
@@ -27,10 +33,13 @@ class FilmController extends Controller
         $request->validate([
             'judul'     => 'required|max:45',
             'ringkasan' => 'required',
-            'tahun'     => 'required|numeric',
+            'tahun'     => 'required|numeric|min:1900|max:' . (date('Y') + 2),
             'poster'    => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
             'genre_id'  => 'required|exists:genre,id',
+        ], [
+            'tahun.min' => 'Tahun film tidak boleh kurang dari 1900.',
+            'tahun.max' => 'Tahun film tidak boleh lebih dari ' . (date('Y') + 2) . '.',
         ]);
 
         // Upload Gambar Poster
@@ -64,10 +73,13 @@ class FilmController extends Controller
         $request->validate([
             'judul'     => 'required|max:45',
             'ringkasan' => 'required',
-            'tahun'     => 'required|numeric',
+            'tahun'     => 'required|numeric|min:1900|max:' . (date('Y') + 2),
             'poster'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'video'     => 'nullable|file|mimes:mp4,mov,avi,webm|max:51200',
             'genre_id'  => 'required|exists:genre,id',
+        ], [
+            'tahun.min' => 'Tahun film tidak boleh kurang dari 1900.',
+            'tahun.max' => 'Tahun film tidak boleh lebih dari ' . (date('Y') + 2) . '.',
         ]);
 
         $data = $request->only(['judul', 'ringkasan', 'tahun', 'genre_id']);

@@ -8,8 +8,19 @@
 
 @section('content')
 <div class="card card-dark">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
         <a href="{{ route('admin.film.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Film</a>
+        <form action="{{ route('admin.film.index') }}" method="GET" class="form-inline">
+            <div class="input-group input-group-sm">
+                <input type="text" name="search" class="form-control" placeholder="Cari judul film..." value="{{ request('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    @if(request('search'))
+                        <a href="{{ route('admin.film.index') }}" class="btn btn-secondary"><i class="fas fa-times"></i></a>
+                    @endif
+                </div>
+            </div>
+        </form>
     </div>
     <div class="card-body p-0">
         <table class="table table-striped table-dark align-middle">
@@ -52,7 +63,13 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="text-center">Belum ada data film.</td></tr>
+                    <tr><td colspan="7" class="text-center">
+                        @if(request('search'))
+                            Film "{{ request('search') }}" tidak ditemukan.
+                        @else
+                            Belum ada data film.
+                        @endif
+                    </td></tr>
                 @endforelse
             </tbody>
         </table>
