@@ -8,8 +8,19 @@
 
 @section('content')
 <div class="card card-dark">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
         <a href="{{ route('admin.cast.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Cast</a>
+        <form action="{{ route('admin.cast.index') }}" method="GET" class="form-inline">
+            <div class="input-group input-group-sm">
+                <input type="text" name="search" class="form-control" placeholder="Cari nama cast..." value="{{ request('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    @if(request('search'))
+                        <a href="{{ route('admin.cast.index') }}" class="btn btn-secondary"><i class="fas fa-times"></i></a>
+                    @endif
+                </div>
+            </div>
+        </form>
     </div>
     <div class="card-body p-0">
         <table class="table table-striped table-dark">
@@ -39,7 +50,13 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="text-center">Belum ada data cast.</td></tr>
+                    <tr><td colspan="5" class="text-center">
+                        @if(request('search'))
+                            Cast "{{ request('search') }}" tidak ditemukan.
+                        @else
+                            Belum ada data cast.
+                        @endif
+                    </td></tr>
                 @endforelse
             </tbody>
         </table>

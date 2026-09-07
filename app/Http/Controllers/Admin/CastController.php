@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class CastController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $casts = Cast::all();
+        $query = Cast::query();
+
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        $casts = $query->orderBy('nama')->get();
         return view('admin.cast.index', compact('casts'));
     }
 

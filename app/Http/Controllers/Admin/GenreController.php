@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $genres = Genre::all();
+        $query = Genre::query();
+
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        $genres = $query->orderBy('nama')->get();
         return view('admin.genre.index', compact('genres'));
     }
 
@@ -21,7 +27,13 @@ class GenreController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['nama' => 'required|max:45']);
+        $request->validate([
+            'nama' => 'required|min:3|max:45',
+        ], [
+            'nama.required' => 'Nama genre wajib diisi.',
+            'nama.min' => 'Nama genre minimal 3 huruf.',
+            'nama.max' => 'Nama genre maksimal 45 huruf.',
+        ]);
         Genre::create($request->all());
         return redirect()->route('admin.genre.index')->with('success', 'Genre berhasil ditambahkan');
     }
@@ -33,7 +45,13 @@ class GenreController extends Controller
 
     public function update(Request $request, Genre $genre)
     {
-        $request->validate(['nama' => 'required|max:45']);
+        $request->validate([
+            'nama' => 'required|min:3|max:45',
+        ], [
+            'nama.required' => 'Nama genre wajib diisi.',
+            'nama.min' => 'Nama genre minimal 3 huruf.',
+            'nama.max' => 'Nama genre maksimal 45 huruf.',
+        ]);
         $genre->update($request->all());
         return redirect()->route('admin.genre.index')->with('success', 'Genre berhasil diupdate');
     }

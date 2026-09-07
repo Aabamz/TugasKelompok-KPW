@@ -64,7 +64,7 @@ Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
 - **Backend:** Laravel 13, PHP 8.3+
 - **Frontend:** Blade Templating, AdminLTE 3, Bootstrap 4, Vite
-- **Database:** SQLite
+- **Database:** SQLite — dipilih karena ringan dan tidak perlu instalasi server database terpisah (seperti MySQL/PostgreSQL), sehingga project bisa langsung dijalankan siapa saja setelah clone tanpa setup tambahan. Cocok untuk skala aplikasi tugas kuliah seperti ini.
 - **Notifikasi:** Laravel Notifications (database + Web Push/VAPID)
 - **Autentikasi:** Session-based (Laravel default)
 

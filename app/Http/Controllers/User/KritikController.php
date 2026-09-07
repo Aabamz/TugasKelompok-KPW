@@ -19,9 +19,13 @@ class KritikController extends Controller
         $isReply = $request->filled('parent_id');
 
         $request->validate([
-            'content'   => 'required|string',
+            'content'   => $isReply ? 'required|string|min:2' : 'required|string|min:10',
             'point'     => $isReply ? 'nullable' : 'required|integer|min:1|max:5',
             'parent_id' => 'nullable|exists:kritik,id',
+        ], [
+            'content.min' => $isReply
+                ? 'Balasan minimal 2 karakter.'
+                : 'Ulasan minimal 10 karakter, ceritakan pendapatmu lebih lengkap ya.',
         ]);
 
         Kritik::create([

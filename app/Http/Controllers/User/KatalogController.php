@@ -55,8 +55,10 @@ class KatalogController extends Controller
     }
 
     // Menampilkan Detail Film
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $sortUlasan = $request->input('sort_ulasan', 'terbaru');
+
         $film = Film::with([
             'genre',
             'peran.cast',
@@ -64,16 +66,18 @@ class KatalogController extends Controller
         ])->withCount('wishlistedBy')->findOrFail($id);
         $isWishlisted = auth()->user()->hasWishlisted($film);
 
-        return view('user.katalog.show', compact('film', 'isWishlisted'));
+        return view('user.katalog.show', compact('film', 'isWishlisted', 'sortUlasan'));
     }
 
     // Dipanggil AJAX (polling) untuk refresh daftar ulasan tanpa reload halaman
-    public function comments($id)
+    public function comments(Request $request, $id)
     {
+        $sortUlasan = $request->input('sort_ulasan', 'terbaru');
+
         $film = Film::with([
             'kritik' => fn ($q) => $q->whereNull('parent_id')->with(['user', 'replies']),
         ])->findOrFail($id);
 
-        return view('user.katalog.partials.comments', compact('film'));
+        return view('user.katalog.partials.comments', compact('film', 'sortUlasan'));
     }
 }

@@ -1,8 +1,19 @@
-<div class="card-header">
+<div class="card-header d-flex justify-content-between align-items-center flex-wrap">
     <h3 class="card-title">Ulasan Penonton ({{ $film->kritik->count() }})</h3>
+    <form method="GET" action="{{ route('film.detail', $film->id) }}" onchange="this.submit()">
+        <select name="sort_ulasan" class="form-control form-control-sm">
+            <option value="terbaru" @selected(($sortUlasan ?? 'terbaru') === 'terbaru')>Terbaru</option>
+            <option value="rating" @selected(($sortUlasan ?? 'terbaru') === 'rating')>Rating Tertinggi</option>
+        </select>
+    </form>
 </div>
 <div class="card-body">
-    @forelse($film->kritik->sortByDesc('created_at') as $kritik)
+    @php
+        $urutanUlasan = ($sortUlasan ?? 'terbaru') === 'rating'
+            ? $film->kritik->sortByDesc('point')
+            : $film->kritik->sortByDesc('created_at');
+    @endphp
+    @forelse($urutanUlasan as $kritik)
         <div class="media mb-3 pb-3 border-bottom">
             <img src="{{ $kritik->user->avatar ? asset('storage/' . $kritik->user->avatar) : 'https://i.pravatar.cc/150?u=' . ($kritik->user->id ?? 0) }}" alt="Foto profil" class="img-circle mr-3" style="width:40px;height:40px;object-fit:cover;">
             <div class="media-body">

@@ -90,6 +90,9 @@
     @forelse($films as $film)
         <div class="col-md-3 col-sm-6 mb-4">
             <div class="card h-100 border-0 shadow-sm position-relative">
+                @if($film->created_at->diffInDays(now()) <= 7)
+                    <span class="badge badge-danger position-absolute" style="top:10px; left:10px; z-index:2;">Baru!</span>
+                @endif
                 <form action="{{ route('wishlist.toggle', $film->id) }}" method="POST" class="position-absolute" style="top:10px; right:10px; z-index:2;">
                     @csrf
                     <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm" title="{{ in_array($film->id, $wishlistedIds) ? 'Hapus dari wishlist' : 'Tambah ke wishlist' }}">
