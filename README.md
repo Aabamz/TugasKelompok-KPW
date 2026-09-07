@@ -60,7 +60,7 @@ Tugas Kelompok — Kelas Pemrograman Web (KPW)
 
 ---
 
-## Tech Stack
+## Teknologi
 
 - **Backend:** Laravel 13, PHP 8.3+
 - **Frontend:** Blade Templating, AdminLTE 3, Bootstrap 4, Vite
